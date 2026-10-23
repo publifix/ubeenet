@@ -1,0 +1,64 @@
+---
+import { withBase } from '../lib/paths';
+
+// En otras páginas el botón lleva al formulario de la landing.
+const { ctaHref = '#registro' } = Astro.props as { ctaHref?: string };
+---
+
+<header class="site-header" data-header>
+  <div class="container site-header__inner">
+    <a class="site-header__logo" href={withBase()} aria-label="Ubeenet, inicio">
+      <img src={withBase('brand/ubeenet-white.svg')} alt="Ubeenet" width="140" height="23" />
+    </a>
+    <a class="btn btn-secondary site-header__cta" href={ctaHref}>Registrarme</a>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 20;
+    transition: background-color 200ms ease, border-color 200ms ease;
+    border-bottom: 1px solid transparent;
+  }
+  .site-header[data-scrolled] {
+    background: rgba(13, 19, 32, 0.82);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    border-bottom-color: var(--linea);
+  }
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+  }
+  .site-header__logo {
+    display: inline-flex;
+    padding-block: var(--s-1);
+  }
+  .site-header__logo img {
+    width: clamp(112px, 12vw, 140px);
+    height: auto;
+  }
+  .site-header__cta {
+    min-height: 44px;
+    padding-inline: var(--s-2);
+    font-size: 1rem;
+  }
+  @media (max-width: 767px) {
+    .site-header__cta {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  if (header) {
+    const update = () => header.toggleAttribute('data-scrolled', window.scrollY > 24);
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+  }
+</script>

@@ -1,0 +1,75 @@
+---
+import { event } from '../config/event';
+import Icon from './Icon.astro';
+const v = event.venue;
+---
+
+<section class="section venue" id="sede" aria-labelledby="sede-titulo">
+  <svg class="venue__mesh" aria-hidden="true" focusable="false">
+    <defs>
+      <pattern id="hex" width="56" height="100" patternUnits="userSpaceOnUse">
+        <path d="M28 66 0 50V16L28 0l28 16v34L28 66v34" fill="none" stroke="rgba(104,166,189,.22)" stroke-width="1"></path>
+      </pattern>
+      <radialGradient id="hex-fade" cx="85%" cy="40%" r="60%">
+        <stop offset="0" stop-color="#fff" stop-opacity="0.5"></stop>
+        <stop offset="1" stop-color="#fff" stop-opacity="0"></stop>
+      </radialGradient>
+      <mask id="hex-mask"><rect width="100%" height="100%" fill="url(#hex-fade)"></rect></mask>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#hex)" mask="url(#hex-mask)"></rect>
+  </svg>
+
+  <div class="container split venue__inner">
+    <h2 class="split__head" id="sede-titulo">{v.name}</h2>
+    <div>
+      <address class="venue__address">{v.address}.</address>
+      <div class="venue__actions">
+        <a class="btn btn-secondary" href={v.mapsUrl} target="_blank" rel="noopener">
+          {event.venueSection.mapsLabel}<Icon name="arrow-up-right" />
+        </a>
+        <a class="btn btn-secondary" href={v.wazeUrl} target="_blank" rel="noopener">
+          {event.venueSection.wazeLabel}<Icon name="arrow-up-right" />
+        </a>
+      </div>
+      <p class="venue__note">{v.note}</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .venue {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+  }
+  .venue__mesh {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+  }
+  .venue__address {
+    max-width: 40ch;
+    font-style: normal;
+    font-size: 1.125rem;
+    line-height: 1.55;
+    color: var(--texto-suave);
+  }
+  .venue__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: var(--s-4);
+  }
+  .venue__note {
+    margin-top: var(--s-3);
+    font-size: var(--fs-small);
+    color: var(--texto-suave);
+  }
+  @media (max-width: 767px) {
+    .venue__actions .btn {
+      flex: 1 1 100%;
+    }
+  }
+</style>

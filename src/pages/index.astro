@@ -1,0 +1,73 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Themes from '../components/Themes.astro';
+import Agenda from '../components/Agenda.astro';
+import Venue from '../components/Venue.astro';
+import Partners from '../components/Partners.astro';
+import Faq from '../components/Faq.astro';
+import FinalCta from '../components/FinalCta.astro';
+import Footer from '../components/Footer.astro';
+import StickyCta from '../components/StickyCta.astro';
+import { event } from '../config/event';
+import { absoluteUrl } from '../lib/paths';
+
+const v = event.venue;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name: event.name,
+  description: event.meta.description,
+  startDate: event.startLocalIso,
+  endDate: event.endLocalIso,
+  eventStatus: 'https://schema.org/EventScheduled',
+  eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+  isAccessibleForFree: true,
+  inLanguage: 'es-MX',
+  image: [absoluteUrl('og-image.jpg')],
+  url: absoluteUrl(),
+  location: {
+    '@type': 'Place',
+    name: v.name,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: v.street,
+      addressLocality: v.locality,
+      addressRegion: v.region,
+      postalCode: v.postalCode,
+      addressCountry: v.country,
+    },
+  },
+  organizer: {
+    '@type': 'Organization',
+    name: event.organizer.shortName,
+    legalName: event.organizer.name,
+    url: event.organizer.url,
+    email: event.organizer.email,
+  },
+  offers: {
+    '@type': 'Offer',
+    price: 0,
+    priceCurrency: 'MXN',
+    availability: 'https://schema.org/LimitedAvailability',
+    url: absoluteUrl() + '#registro',
+  },
+};
+---
+
+<Base jsonLd={jsonLd}>
+  <a class="skip-link" href="#registro">Ir al registro</a>
+  <Header />
+  <main>
+    <Hero />
+    <Themes />
+    <Agenda />
+    <Venue />
+    <Partners />
+    <Faq />
+    <FinalCta />
+  </main>
+  <Footer />
+  <StickyCta />
+</Base>

@@ -1,0 +1,55 @@
+---
+import { event } from '../config/event';
+---
+
+<div class="sticky-cta" data-sticky-cta hidden>
+  <a class="btn btn-primary" href="#registro">{event.form.submit}</a>
+</div>
+
+<style>
+  .sticky-cta {
+    position: fixed;
+    inset: auto 0 0 0;
+    z-index: 30;
+    padding: 12px var(--gutter) calc(12px + env(safe-area-inset-bottom));
+    background: rgba(13, 19, 32, 0.88);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    border-top: 1px solid var(--linea);
+    transform: translateY(0);
+    transition: transform 240ms var(--ease-out), visibility 240ms;
+  }
+  .sticky-cta[data-hidden] {
+    transform: translateY(110%);
+    visibility: hidden;
+  }
+  .sticky-cta .btn {
+    width: 100%;
+  }
+  @media (min-width: 768px) {
+    .sticky-cta {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // Barra fija en móvil: se oculta mientras el formulario está a la vista y después del registro.
+  const bar = document.querySelector<HTMLElement>('[data-sticky-cta]');
+  const panel = document.getElementById('registro');
+  if (bar && panel) {
+    bar.hidden = false;
+    let formVisible = true;
+    let done = false;
+    const sync = () => bar.toggleAttribute('data-hidden', formVisible || done);
+    new IntersectionObserver(([entry]) => {
+      formVisible = entry.isIntersecting;
+      sync();
+    }).observe(panel);
+    document.addEventListener('registered', () => {
+      done = true;
+      sync();
+    });
+    sync();
+  }
+</script>

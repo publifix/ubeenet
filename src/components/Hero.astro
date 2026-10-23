@@ -1,0 +1,147 @@
+---
+import { event } from '../config/event';
+import BgVideo from './BgVideo.astro';
+import RegisterForm from './RegisterForm.astro';
+---
+
+<section class="hero" aria-labelledby="hero-title">
+  <BgVideo />
+  <div class="container hero__grid">
+    <div class="hero__copy">
+      <h1 class="display hero__title" id="hero-title">{event.hero.title}</h1>
+      <p class="hero__subtitle">{event.hero.subtitle}</p>
+      <dl class="hero__data data">
+        <div>
+          <dt class="visually-hidden">Fecha</dt>
+          <dd><time datetime={event.startLocalIso.slice(0, 10)}>{event.dateLong}</time></dd>
+        </div>
+        <div>
+          <dt class="visually-hidden">Horario</dt>
+          <dd>
+            <time datetime={event.startLocalIso}>{event.timeRange.split(' a ')[0]}</time> a <time
+              datetime={event.endLocalIso}>{event.timeRange.split(' a ')[1]}</time
+            >
+          </dd>
+        </div>
+        <div>
+          <dt class="visually-hidden">Sede</dt>
+          <dd><a href="#sede">{event.venue.name}, {event.venue.city}</a></dd>
+        </div>
+      </dl>
+    </div>
+    <div class="hero__form">
+      <RegisterForm />
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    isolation: isolate;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    padding-block: calc(72px + var(--s-6)) var(--s-12);
+  }
+  .hero__grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--s-3);
+    row-gap: var(--s-6);
+    align-items: center;
+  }
+  .hero__copy {
+    grid-column: 1 / span 7;
+    padding-right: var(--s-4);
+  }
+  .hero__form {
+    grid-column: 8 / span 5;
+  }
+  .hero__title {
+    max-width: 9ch;
+  }
+  .hero__subtitle {
+    margin-top: var(--s-3);
+    max-width: 34ch;
+    font-size: clamp(1.0625rem, 0.6vw + 0.95rem, 1.25rem);
+    line-height: 1.5;
+    color: var(--texto-suave);
+  }
+  .hero__data {
+    margin-top: var(--s-6);
+    max-width: 30rem;
+    border-top: 1px solid var(--linea);
+    border-bottom: 1px solid var(--linea);
+  }
+  .hero__data > div {
+    padding-block: 12px;
+  }
+  .hero__data > div + div {
+    border-top: 1px solid var(--linea);
+  }
+  .hero__data dd {
+    margin: 0;
+  }
+  .hero__data a {
+    color: inherit;
+    text-decoration-color: var(--linea);
+  }
+  .hero__data a:hover {
+    text-decoration-color: currentColor;
+    color: var(--texto);
+  }
+
+  /* Secuencia de carga: H1 → datos → formulario (600 ms en total). */
+  @media (prefers-reduced-motion: no-preference) {
+    .hero__title,
+    .hero__subtitle,
+    .hero__data,
+    .hero__form {
+      animation: rise 360ms var(--ease-out) both;
+    }
+    .hero__subtitle {
+      animation-delay: 60ms;
+    }
+    .hero__data {
+      animation-delay: 120ms;
+    }
+    .hero__form {
+      animation-delay: 240ms;
+    }
+  }
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+  }
+
+  @media (max-width: 1023px) {
+    .hero {
+      min-height: auto;
+      align-items: flex-start;
+    }
+    .hero__copy,
+    .hero__form {
+      grid-column: 1 / -1;
+      padding-right: 0;
+    }
+    .hero__form {
+      max-width: 34rem;
+    }
+  }
+  @media (max-width: 767px) {
+    .hero {
+      padding-block: calc(72px + var(--s-4)) var(--s-8);
+    }
+    .hero__grid {
+      row-gap: var(--s-4);
+    }
+    .hero__data {
+      margin-top: var(--s-4);
+    }
+  }
+</style>

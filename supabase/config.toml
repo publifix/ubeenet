@@ -1,0 +1,14 @@
+# Configuración mínima del CLI de Supabase para este proyecto.
+# `supabase link --project-ref <ref>` asocia el proyecto remoto.
+project_id = "ubeenet-connect"
+
+[api]
+port = 54321
+
+[db]
+port = 54322
+major_version = 15
+
+[functions.register]
+# Endpoint público: lo protegen la validación, el honeypot, Turnstile y el rate limit.
+verify_jwt = false

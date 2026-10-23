@@ -1,0 +1,87 @@
+---
+import { event } from '../config/event';
+import Icon from './Icon.astro';
+
+// Convierte correo y teléfono de la respuesta en enlaces.
+const linkify = (text: string) =>
+  text
+    .replace(event.organizer.email, `<a href="mailto:${event.organizer.email}">${event.organizer.email}</a>`)
+    .replace(event.organizer.phone, `<a href="${event.organizer.phoneHref}">${event.organizer.phone}</a>`);
+---
+
+<section class="section" aria-labelledby="faq-titulo">
+  <div class="container split">
+    <h2 id="faq-titulo" class="split__head">{event.faq.title}</h2>
+    <div class="faq">
+      {
+        event.faq.items.map((item) => (
+          <details class="faq__item">
+            <summary>
+              <span>{item.q}</span>
+              <Icon name="plus" class="faq__icon" />
+            </summary>
+            <p set:html={linkify(item.a)} />
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq {
+    border-top: 1px solid var(--linea);
+  }
+  .faq__item {
+    border-bottom: 1px solid var(--linea);
+  }
+  summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-2);
+    min-height: 64px;
+    padding-block: var(--s-2);
+    font-size: 1.1875rem;
+    font-weight: 500;
+    line-height: 1.35;
+    cursor: pointer;
+    list-style: none;
+    transition: color var(--t-fast) ease;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  summary:hover {
+    color: var(--nube-hover);
+  }
+  summary:focus-visible {
+    outline-offset: 2px;
+  }
+  .faq__item :global(.faq__icon) {
+    flex: none;
+    width: 22px;
+    height: 22px;
+    color: var(--texto-suave);
+    transition: transform 200ms var(--ease-out);
+  }
+  .faq__item[open] :global(.faq__icon) {
+    transform: rotate(45deg);
+  }
+  .faq__item p {
+    padding-bottom: var(--s-3);
+    padding-right: var(--s-6);
+    color: var(--texto-suave);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .faq__item[open] p {
+      animation: faq-open 220ms var(--ease-out);
+    }
+  }
+  @keyframes faq-open {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+  }
+</style>

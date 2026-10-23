@@ -1,11 +1,17 @@
 # ubeenet
 
-Landing page del evento UBEENET.
+Landing de registro de Ubeenet Connect 2026. Especificación: `PROMPT_CLAUDE_CODE.md` (fuente de verdad). Setup y comandos: `README.md`.
 
 ## Publicación
 
-- El sitio se publica automáticamente en GitHub Pages con cada push (cualquier rama) mediante `.github/workflows/pages.yml`.
-- URL pública: https://publifix.github.io/ubeenet/
-- Al terminar cada ronda de desarrollo: hacer commit y push de todos los cambios, y dar al usuario la URL pública.
-- El sitio vive en el subdirectorio `/ubeenet/`: usar rutas relativas para assets (`./img/logo.png`, no `/img/logo.png`). Si se usa un bundler (Vite, Astro, etc.), configurar la ruta base con la variable de entorno `BASE_PATH`.
-- Si hay `package.json` con script `build`, el workflow publica `dist/`, `build/`, `out/`, `_site/` o `public/` (la primera que tenga `index.html`). Si no, publica los archivos estáticos de la raíz.
+- Push a `main` → `.github/workflows/deploy.yml` construye Astro y publica en GitHub Pages: https://publifix.github.io/ubeenet/
+- Al terminar cada ronda de desarrollo: commit, push de la rama de trabajo y a `main`, y dar al usuario la URL pública.
+- El sitio vive bajo `/ubeenet/`: usar `withBase()` de `src/lib/paths.ts` para rutas internas y assets de `public/`.
+
+## Reglas del proyecto
+
+- Textos, fechas y sede solo en `src/config/event.ts`.
+- `src/lib/validation.ts`, `src/lib/ics.ts` y `src/config/event.ts` se copian a `supabase/functions/_shared/` (`npm run sync:shared`); no editar las copias.
+- Paleta: el cian `--nube` es el único acento (CTA, foco, links). El amarillo #CDA41B no se usa. El violeta solo en el fondo animado.
+- Fondo animado: `hyperframes/bg-loop` (`sh hyperframes/bg-loop/export.sh` re-renderiza y exporta a `public/media`).
+- Diseño: `DESIGN.md`. Producto: `PRODUCT.md`.

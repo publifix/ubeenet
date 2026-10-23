@@ -1,0 +1,78 @@
+---
+import { event } from '../config/event';
+import { withBase } from '../lib/paths';
+const o = event.organizer;
+---
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__top">
+      <a href={o.url} class="footer__logo" target="_blank" rel="noopener">
+        <img src={withBase('brand/ubeenet-white.svg')} alt="Ubeenet" width="120" height="20" loading="lazy" />
+      </a>
+      <ul class="footer__links" role="list">
+        <li><a href={withBase('aviso-de-privacidad/')}>Aviso de privacidad</a></li>
+        <li><a href={o.linkedin} target="_blank" rel="noopener">LinkedIn</a></li>
+        <li><a href={o.facebook} target="_blank" rel="noopener">Facebook</a></li>
+        <li><a href={`mailto:${o.email}`}>{o.email}</a></li>
+      </ul>
+    </div>
+    <div class="footer__bottom small">
+      <p>© 2026 {o.name}</p>
+      <p class="footer__credit">{event.footer.credit}</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    padding-block: var(--s-8) calc(var(--s-4) + env(safe-area-inset-bottom));
+    border-top: 1px solid var(--linea);
+  }
+  .footer__top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-3) var(--s-6);
+  }
+  .footer__logo {
+    display: inline-flex;
+  }
+  .footer__logo img {
+    width: 120px;
+    height: auto;
+  }
+  .footer__links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px var(--s-3);
+    font-size: 0.9375rem;
+  }
+  .footer__links a {
+    display: inline-block;
+    padding-block: 6px;
+    color: var(--texto-suave);
+    text-decoration-color: transparent;
+  }
+  .footer__links a:hover {
+    color: var(--texto);
+    text-decoration-color: currentColor;
+  }
+  .footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--s-1) var(--s-3);
+    margin-top: var(--s-6);
+    padding-top: var(--s-3);
+    border-top: 1px solid var(--linea);
+    color: var(--acero);
+  }
+  .footer__credit {
+    color: var(--acero);
+  }
+</style>

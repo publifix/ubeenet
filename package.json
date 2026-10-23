@@ -1,0 +1,29 @@
+{
+  "name": "ubeenet-connect",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "node scripts/sync-shared.mjs && astro dev",
+    "build": "node scripts/sync-shared.mjs && astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "sync:shared": "node scripts/sync-shared.mjs",
+    "og-image": "node scripts/og-image.mjs",
+    "media": "sh hyperframes/bg-loop/export.sh",
+    "functions:serve": "node scripts/sync-shared.mjs && supabase functions serve register --no-verify-jwt --env-file supabase/.env.local",
+    "deploy:function": "node scripts/sync-shared.mjs && supabase functions deploy register --no-verify-jwt"
+  },
+  "dependencies": {
+    "@fontsource-variable/saira": "^5.3.0",
+    "@supabase/supabase-js": "^2.118.0",
+    "astro": "^5.18.2"
+  },
+  "engines": {
+    "node": ">=20.3.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "typescript": "^5.9.3"
+  }
+}

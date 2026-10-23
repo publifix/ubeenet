@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.astro/
+.env
+.env.*
+!.env.example
+.DS_Store
+supabase/.temp/
+supabase/.branches/
+hyperframes/**/out/
+hyperframes/**/node_modules/
+.hyperframes/
+hyperframes/**/.hyperframes/
+__pycache__/

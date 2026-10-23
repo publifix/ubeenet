@@ -1,0 +1,452 @@
+---
+import Base from '../../layouts/Base.astro';
+import { event } from '../../config/event';
+import { withBase } from '../../lib/paths';
+
+const configured = Boolean(import.meta.env.PUBLIC_SUPABASE_URL && import.meta.env.PUBLIC_SUPABASE_ANON_KEY);
+---
+
+<Base title={`Registros · ${event.name}`} path="registros/" noindex>
+  <header class="admin-header">
+    <div class="container admin-header__inner">
+      <a href={withBase()} class="admin-header__logo" aria-label="Ir a la landing">
+        <img src={withBase('brand/ubeenet-white.svg')} alt="Ubeenet" width="112" height="19" />
+      </a>
+      <button class="btn btn-secondary admin-header__logout" type="button" data-logout hidden>Cerrar sesión</button>
+    </div>
+  </header>
+
+  <main class="container admin" data-admin data-configured={configured ? 'true' : 'false'}>
+    <h1 class="admin__title">Registros</h1>
+    <p class="admin__subtitle">{event.name} · {event.dateLong}</p>
+
+    <p class="admin__message" data-state="loading" role="status">Cargando…</p>
+
+    <p class="admin__message" data-state="unconfigured" hidden>
+      El panel aún no está conectado: faltan <code>PUBLIC_SUPABASE_URL</code> y <code>PUBLIC_SUPABASE_ANON_KEY</code>.
+    </p>
+
+    <form class="login" data-state="login" hidden novalidate>
+      <h2 class="login__title">Inicia sesión</h2>
+      <div class="login__field">
+        <label for="login-email">Correo</label>
+        <input id="login-email" name="email" type="email" autocomplete="username" required />
+      </div>
+      <div class="login__field">
+        <label for="login-password">Contraseña</label>
+        <input id="login-password" name="password" type="password" autocomplete="current-password" required />
+      </div>
+      <button class="btn btn-primary" type="submit">Entrar</button>
+      <p class="login__error" role="alert" data-login-error></p>
+    </form>
+
+    <p class="admin__message" data-state="denied" hidden>Tu cuenta no tiene acceso a los registros.</p>
+
+    <section data-state="data" hidden aria-labelledby="resumen">
+      <h2 id="resumen" class="visually-hidden">Resumen</h2>
+      <dl class="stats">
+        <div>
+          <dt>Total</dt>
+          <dd data-total>0</dd>
+        </div>
+        <div>
+          <dt>Hoy</dt>
+          <dd data-today>0</dd>
+        </div>
+      </dl>
+
+      <div class="toolbar">
+        <div class="toolbar__search">
+          <label for="search" class="visually-hidden">Buscar por nombre, correo o WhatsApp</label>
+          <input id="search" type="search" placeholder="Buscar por nombre, correo o WhatsApp" autocomplete="off" />
+        </div>
+        <button class="btn btn-secondary" type="button" data-export>Exportar CSV</button>
+      </div>
+      <p class="toolbar__count" role="status" data-count></p>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Correo</th>
+            <th scope="col">WhatsApp</th>
+            <th scope="col">Fecha de registro</th>
+            <th scope="col">Correo de confirmación</th>
+          </tr>
+        </thead>
+        <tbody data-rows></tbody>
+      </table>
+      <p class="admin__message" data-empty hidden>Sin registros que coincidan.</p>
+    </section>
+  </main>
+</Base>
+
+<style>
+  .admin-header {
+    border-bottom: 1px solid var(--linea);
+  }
+  .admin-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+  .admin-header__logo img {
+    width: 112px;
+    height: auto;
+  }
+  .admin-header__logout {
+    min-height: 40px;
+    padding-inline: var(--s-2);
+    font-size: 0.9375rem;
+  }
+  .admin {
+    padding-block: var(--s-6) var(--s-12);
+  }
+  .admin__title {
+    font-size: var(--fs-h2);
+    font-stretch: 85%;
+    line-height: 1.05;
+  }
+  .admin__subtitle {
+    margin-top: var(--s-1);
+    color: var(--texto-suave);
+  }
+  .admin__message {
+    margin-top: var(--s-4);
+    color: var(--texto-suave);
+  }
+  .admin__message code {
+    font-size: 0.9em;
+    color: var(--texto);
+  }
+
+  .login {
+    display: grid;
+    gap: var(--s-2);
+    max-width: 24rem;
+    margin-top: var(--s-4);
+    padding: var(--s-4);
+    background: var(--superficie);
+    border: 1px solid var(--linea);
+    border-radius: var(--r-panel);
+  }
+  .login[hidden] {
+    display: none;
+  }
+  .login__title {
+    font-size: 1.375rem;
+    font-stretch: 85%;
+  }
+  .login__field {
+    display: grid;
+    gap: 6px;
+  }
+  .login__field label {
+    font-size: 0.9375rem;
+    font-weight: 500;
+  }
+  .login__error {
+    font-size: var(--fs-small);
+    color: var(--error);
+  }
+  .login__error:empty {
+    display: none;
+  }
+
+  input {
+    width: 100%;
+    height: 48px;
+    padding: 0 14px;
+    background: rgba(13, 19, 32, 0.6);
+    border: 1px solid rgba(238, 241, 246, 0.22);
+    border-radius: var(--r-control);
+    color: var(--texto);
+    font: inherit;
+    font-size: 1rem;
+  }
+  input:focus {
+    outline: none;
+    border-color: var(--nube);
+  }
+  input:focus-visible {
+    outline: 2px solid var(--texto);
+    outline-offset: 3px;
+  }
+  input::placeholder {
+    color: #8792a3;
+  }
+
+  .stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-6);
+    margin-top: var(--s-6);
+  }
+  .stats dt {
+    font-size: var(--fs-small);
+    color: var(--texto-suave);
+  }
+  .stats dd {
+    margin: 0;
+    font-size: clamp(2.75rem, 4vw + 1rem, 4rem);
+    font-weight: 600;
+    font-stretch: 75%;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: var(--s-6);
+  }
+  .toolbar__search {
+    flex: 1 1 18rem;
+  }
+  .toolbar__count {
+    margin-top: 12px;
+    font-size: var(--fs-small);
+    color: var(--texto-suave);
+  }
+
+  .table {
+    width: 100%;
+    margin-top: var(--s-2);
+    border-collapse: collapse;
+    font-size: 0.9375rem;
+    font-variant-numeric: tabular-nums;
+  }
+  .table th {
+    padding: 12px;
+    text-align: left;
+    font-weight: 500;
+    font-size: var(--fs-small);
+    color: var(--texto-suave);
+    border-bottom: 1px solid var(--linea);
+  }
+  .table :global(td) {
+    padding: 14px 12px;
+    border-bottom: 1px solid var(--linea);
+    vertical-align: top;
+    overflow-wrap: anywhere;
+  }
+  .table :global(.status) {
+    display: inline-block;
+    justify-self: start;
+    padding: 2px 10px;
+    border-radius: var(--r-pill);
+    border: 1px solid currentColor;
+    font-size: 0.8125rem;
+  }
+  .table :global(.status--sent) {
+    color: var(--ok);
+  }
+  .table :global(.status--failed) {
+    color: var(--error);
+  }
+  .table :global(.status--pending) {
+    color: var(--texto-suave);
+  }
+
+  @media (max-width: 767px) {
+    .table thead {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+    }
+    .table,
+    .table tbody,
+    .table :global(tr),
+    .table :global(td) {
+      display: block;
+    }
+    .table :global(tr) {
+      padding-block: var(--s-2);
+      border-bottom: 1px solid var(--linea);
+    }
+    .table :global(td) {
+      display: grid;
+      grid-template-columns: 7.5rem 1fr;
+      gap: var(--s-1);
+      padding: 4px 0;
+      border: 0;
+    }
+    .table :global(td)::before {
+      content: attr(data-label);
+      color: var(--texto-suave);
+      font-size: var(--fs-small);
+    }
+  }
+</style>
+
+<script>
+  import type { SupabaseClient } from '@supabase/supabase-js';
+
+  interface Registration {
+    full_name: string;
+    email: string;
+    whatsapp: string;
+    created_at: string;
+    email_status: string;
+  }
+
+  const root = document.querySelector<HTMLElement>('[data-admin]')!;
+  const logoutBtn = document.querySelector<HTMLButtonElement>('[data-logout]')!;
+  const states = root.querySelectorAll<HTMLElement>('[data-state]');
+  const show = (name: string) => states.forEach((el) => (el.hidden = el.dataset.state !== name));
+
+  const fmtDate = new Intl.DateTimeFormat('es-MX', {
+    timeZone: 'America/Mexico_City',
+    dateStyle: 'medium',
+    timeStyle: 'short',
+  });
+  const dayKey = (d: Date) => d.toLocaleDateString('en-CA', { timeZone: 'America/Mexico_City' });
+  const statusLabel: Record<string, string> = { sent: 'Enviado', failed: 'Falló', pending: 'Pendiente' };
+
+  let rows: Registration[] = [];
+
+  function render(filter: string) {
+    const q = filter.trim().toLowerCase();
+    const digits = q.replace(/\D/g, '');
+    const list = q
+      ? rows.filter(
+          (r) =>
+            r.full_name.toLowerCase().includes(q) ||
+            r.email.toLowerCase().includes(q) ||
+            (digits && r.whatsapp.includes(digits)),
+        )
+      : rows;
+
+    const tbody = root.querySelector<HTMLElement>('[data-rows]')!;
+    tbody.replaceChildren(
+      ...list.map((r) => {
+        const tr = document.createElement('tr');
+        const cell = (label: string, content: string | Node) => {
+          const td = document.createElement('td');
+          td.dataset.label = label;
+          td.append(content);
+          tr.append(td);
+        };
+        cell('Nombre', r.full_name);
+        const mail = document.createElement('a');
+        mail.href = `mailto:${r.email}`;
+        mail.textContent = r.email;
+        cell('Correo', mail);
+        const wa = document.createElement('a');
+        wa.href = `https://wa.me/${r.whatsapp.replace(/^\+/, '')}`;
+        wa.target = '_blank';
+        wa.rel = 'noopener';
+        wa.textContent = r.whatsapp;
+        cell('WhatsApp', wa);
+        cell('Fecha', fmtDate.format(new Date(r.created_at)));
+        const badge = document.createElement('span');
+        badge.className = `status status--${r.email_status}`;
+        badge.textContent = statusLabel[r.email_status] ?? r.email_status;
+        cell('Confirmación', badge);
+        return tr;
+      }),
+    );
+    root.querySelector<HTMLElement>('[data-empty]')!.hidden = list.length > 0;
+    root.querySelector<HTMLElement>('[data-count]')!.textContent = q
+      ? `${list.length} de ${rows.length} registros`
+      : `${rows.length} registros`;
+  }
+
+  function exportCsv() {
+    const header = ['Nombre', 'Correo', 'WhatsApp', 'Fecha de registro (CDMX)', 'Correo de confirmación'];
+    const esc = (v: string) => `"${v.replace(/"/g, '""')}"`;
+    const lines = [header, ...rows.map((r) => [r.full_name, r.email, r.whatsapp, fmtDate.format(new Date(r.created_at)), statusLabel[r.email_status] ?? r.email_status])]
+      .map((cols) => cols.map((c) => esc(String(c))).join(','));
+    // BOM para que Excel respete los acentos.
+    const blob = new Blob(['﻿' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `registros-ubeenet-${dayKey(new Date())}.csv`;
+    document.body.append(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  }
+
+  async function loadData(supabase: SupabaseClient, email: string) {
+    show('loading');
+    const { data: admin } = await supabase.from('admins').select('email').eq('email', email).maybeSingle();
+    if (!admin) {
+      show('denied');
+      return;
+    }
+    const { data, error } = await supabase
+      .from('registrations')
+      .select('full_name, email, whatsapp, created_at, email_status')
+      .order('created_at', { ascending: false });
+    if (error) {
+      show('denied');
+      return;
+    }
+    rows = data ?? [];
+    const today = dayKey(new Date());
+    root.querySelector<HTMLElement>('[data-total]')!.textContent = String(rows.length);
+    root.querySelector<HTMLElement>('[data-today]')!.textContent = String(
+      rows.filter((r) => dayKey(new Date(r.created_at)) === today).length,
+    );
+    render('');
+    show('data');
+  }
+
+  async function init() {
+    if (root.dataset.configured !== 'true') {
+      show('unconfigured');
+      return;
+    }
+    // supabase-js solo se carga en esta página.
+    const { createClient } = await import('@supabase/supabase-js');
+    const supabase = createClient(import.meta.env.PUBLIC_SUPABASE_URL!, import.meta.env.PUBLIC_SUPABASE_ANON_KEY!);
+
+    const { data } = await supabase.auth.getSession();
+    const session = data.session;
+    if (session?.user.email) {
+      logoutBtn.hidden = false;
+      await loadData(supabase, session.user.email);
+    } else show('login');
+
+    const form = root.querySelector<HTMLFormElement>('form.login')!;
+    const err = root.querySelector<HTMLElement>('[data-login-error]')!;
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      err.textContent = '';
+      const fd = new FormData(form);
+      const btn = form.querySelector<HTMLButtonElement>('button')!;
+      btn.disabled = true;
+      btn.textContent = 'Entrando…';
+      const { data: signIn, error } = await supabase.auth.signInWithPassword({
+        email: String(fd.get('email') || '').trim(),
+        password: String(fd.get('password') || ''),
+      });
+      btn.disabled = false;
+      btn.textContent = 'Entrar';
+      if (error || !signIn.user?.email) {
+        err.textContent = 'Correo o contraseña incorrectos.';
+        return;
+      }
+      logoutBtn.hidden = false;
+      await loadData(supabase, signIn.user.email);
+    });
+
+    logoutBtn.addEventListener('click', async () => {
+      await supabase.auth.signOut();
+      rows = [];
+      logoutBtn.hidden = true;
+      form.reset();
+      show('login');
+    });
+
+    root.querySelector<HTMLInputElement>('#search')!.addEventListener('input', (e) => render((e.target as HTMLInputElement).value));
+    root.querySelector('[data-export]')!.addEventListener('click', exportCsv);
+  }
+
+  init();
+</script>

@@ -1,0 +1,70 @@
+@font-face {
+  font-family: 'Saira';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  font-stretch: 50% 125%;
+  src: url('../assets/fonts/saira-latin-wdth.woff2') format('woff2-variations');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Saira';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  font-stretch: 50% 125%;
+  src: url('../assets/fonts/saira-latin-ext-wdth.woff2') format('woff2-variations');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1E00-1E9F, U+20A0-20AB, U+20AD-20C0,
+    U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+:root {
+  color-scheme: dark;
+
+  /* Marca */
+  --noche: #0d1320;
+  --marino: #243867;
+  --nube: #68a6bd;
+  --violeta: #5e237e; /* solo en el fondo animado */
+  --acero: #888686;
+
+  /* Derivados */
+  --texto: #eef1f6;
+  --texto-suave: #b9c2d0;
+  --linea: rgba(104, 166, 189, 0.22);
+  --superficie: rgba(36, 56, 103, 0.55);
+  --nube-hover: #8cbdd0;
+  --error: #e5787a;
+  --ok: #6fcf97;
+
+  /* Tipografía */
+  --font: 'Saira', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --fs-display: clamp(2.75rem, 6vw + 1rem, 5.5rem);
+  --fs-h2: clamp(1.9rem, 3vw + 1rem, 3rem);
+  --fs-h3: 1.25rem;
+  --fs-body: 1.0625rem;
+  --fs-small: 0.875rem;
+
+  /* Espacio (múltiplos de 8) */
+  --s-1: 8px;
+  --s-2: 16px;
+  --s-3: 24px;
+  --s-4: 32px;
+  --s-6: 48px;
+  --s-8: 64px;
+  --s-12: 96px;
+  --s-16: 128px;
+  --section-gap: clamp(80px, 12vw, 144px);
+  --gutter: clamp(1.25rem, 4vw, 2.5rem);
+  --container: 1200px;
+
+  /* Forma */
+  --r-control: 10px;
+  --r-panel: 20px;
+  --r-pill: 999px;
+
+  /* Movimiento */
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --t-fast: 150ms;
+}

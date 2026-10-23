@@ -1,0 +1,58 @@
+---
+import { event } from '../config/event';
+---
+
+<section class="section final" aria-labelledby="cta-titulo">
+  <div class="container final__inner">
+    <h2 id="cta-titulo">{event.finalCta.title}</h2>
+    <div class="final__side">
+      <p class="data final__data">{event.dateLong} · {event.timeRange}<br />{event.venue.name}, {event.venue.city}</p>
+      <a class="btn btn-primary" href="#registro" data-scroll-to-form>{event.finalCta.button}</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .final__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: var(--s-4) var(--s-3);
+    align-items: end;
+  }
+  .final h2 {
+    max-width: 14ch;
+  }
+  .final__side {
+    display: grid;
+    gap: var(--s-3);
+    justify-items: start;
+  }
+  .final__data {
+    color: var(--texto-suave);
+  }
+  @media (max-width: 1023px) {
+    .final__inner {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+  }
+</style>
+
+<script>
+  // Lleva al formulario y enfoca el primer campo (o el título de éxito si ya se registró).
+  document.querySelectorAll<HTMLAnchorElement>('a[href="#registro"]').forEach((link) => {
+    link.addEventListener('click', (e) => {
+      const panel = document.getElementById('registro');
+      if (!panel) return;
+      e.preventDefault();
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      panel.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+      const formView = panel.querySelector<HTMLElement>('[data-view="form"]');
+      const target = formView && !formView.hidden
+        ? panel.querySelector<HTMLElement>('#full_name')
+        : panel.querySelector<HTMLElement>('[data-success-title]');
+      target?.focus({ preventScroll: true });
+      history.replaceState(null, '', '#registro');
+    });
+  });
+</script>

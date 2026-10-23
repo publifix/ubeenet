@@ -1,0 +1,644 @@
+---
+import { event } from '../config/event';
+import { COUNTRY_CODES } from '../lib/validation';
+import { googleCalendarUrl } from '../lib/ics';
+import { withBase } from '../lib/paths';
+import Icon from './Icon.astro';
+
+const f = event.form;
+const endpoint = import.meta.env.PUBLIC_REGISTER_ENDPOINT || '';
+const turnstileKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '';
+const showSetupNotice = import.meta.env.DEV || import.meta.env.PUBLIC_SHOW_SETUP_NOTICE === 'true';
+const gcalUrl = googleCalendarUrl(event);
+
+const config = {
+  endpoint,
+  dev: import.meta.env.DEV,
+  messages: { ...f.errors, duplicate: f.duplicate, notEnabledPublic: f.notEnabledPublic, fixFields: f.fixFields },
+  submit: f.submit,
+  submitting: f.submitting,
+  successText: f.successText,
+};
+---
+
+<div class="panel" id="registro" data-register data-config={JSON.stringify(config)}>
+  <div class="panel__view" data-view="form">
+    <h2 class="panel__title" id="registro-titulo">{f.title}</h2>
+    <p class="panel__help">{f.help}</p>
+
+    {
+      !endpoint && (
+        <p class="panel__notice" data-setup-notice hidden={!showSetupNotice}>
+          {f.notEnabled}
+        </p>
+      )
+    }
+
+    <form class="form" novalidate aria-labelledby="registro-titulo">
+      <div class="field" data-field="full_name">
+        <label for="full_name">{f.labels.name}</label>
+        <input
+          id="full_name"
+          name="full_name"
+          type="text"
+          autocomplete="name"
+          autocapitalize="words"
+          spellcheck="false"
+          placeholder={f.placeholders.name}
+          maxlength="120"
+          required
+          aria-describedby="full_name-error"
+        />
+        <p class="field__error" id="full_name-error"></p>
+      </div>
+
+      <div class="field" data-field="email">
+        <label for="email">{f.labels.email}</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          autocomplete="email"
+          autocapitalize="off"
+          spellcheck="false"
+          inputmode="email"
+          placeholder={f.placeholders.email}
+          maxlength="254"
+          required
+          aria-describedby="email-error"
+        />
+        <p class="field__error" id="email-error"></p>
+      </div>
+
+      <fieldset class="field" data-field="whatsapp">
+        <legend id="whatsapp-label">{f.labels.whatsapp}</legend>
+        <div class="phone">
+          <div class="select">
+            <label class="visually-hidden" for="country_code">{f.labels.countryCode}</label>
+            <select id="country_code" name="country_code" autocomplete="tel-country-code">
+              {COUNTRY_CODES.map((c) => <option value={c.code || 'other'}>{c.label}</option>)}
+            </select>
+            <Icon name="chevron-down" class="select__icon" />
+          </div>
+          <div class="phone__other" hidden>
+            <label class="visually-hidden" for="other_code">{f.otherCode}</label>
+            <span class="phone__plus" aria-hidden="true">+</span>
+            <input
+              id="other_code"
+              name="other_code"
+              type="text"
+              inputmode="numeric"
+              autocomplete="off"
+              maxlength="4"
+              placeholder="lada"
+              aria-describedby="whatsapp-error"
+            />
+          </div>
+          <input
+            id="phone"
+            name="phone"
+            type="tel"
+            inputmode="tel"
+            autocomplete="tel-national"
+            placeholder={f.placeholders.whatsapp}
+            maxlength="20"
+            required
+            aria-labelledby="whatsapp-label"
+            aria-describedby="whatsapp-error"
+          />
+        </div>
+        <p class="field__error" id="whatsapp-error"></p>
+      </fieldset>
+
+      <div class="field field--check" data-field="consent">
+        <div class="check">
+          <input id="consent" name="consent" type="checkbox" required aria-describedby="consent-error" />
+          <label for="consent">
+            {f.consentBefore} <a href={withBase('aviso-de-privacidad/')} target="_blank" rel="noopener">{f.consentLink}</a>
+            {f.consentAfter}
+          </label>
+        </div>
+        <p class="field__error" id="consent-error"></p>
+      </div>
+
+      <div class="hp" aria-hidden="true">
+        <label for="company_website">No llenes este campo</label>
+        <input id="company_website" name="company_website" type="text" tabindex="-1" autocomplete="off" />
+      </div>
+
+      {turnstileKey && <div class="cf-turnstile" data-sitekey={turnstileKey} data-theme="dark" data-appearance="managed" data-language="es" />}
+
+      <button class="btn btn-primary form__submit" type="submit">{f.submit}</button>
+      <p class="form__note">{f.note}</p>
+      <p class="form__status" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+
+  <div class="panel__view panel__success" data-view="success" hidden>
+    <span class="success__mark" aria-hidden="true"><Icon name="check" /></span>
+    <h2 class="panel__title" tabindex="-1" data-success-title>{f.successTitle}</h2>
+    <p class="panel__help" data-success-text></p>
+    <div class="success__actions">
+      <a class="btn btn-primary" href={gcalUrl} target="_blank" rel="noopener">
+        <Icon name="calendar" />{f.googleCalendar}
+      </a>
+      <button class="btn btn-secondary" type="button" data-ics>
+        <Icon name="download" />{f.icsDownload}
+      </button>
+    </div>
+  </div>
+</div>
+
+{turnstileKey && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}
+
+<style>
+  .panel {
+    position: relative;
+    padding: clamp(var(--s-3), 3vw, var(--s-4));
+    background: var(--superficie);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--linea);
+    border-radius: var(--r-panel);
+    scroll-margin-top: 96px;
+  }
+  .panel__title {
+    font-size: 1.625rem;
+    font-stretch: 85%;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+  .panel__title:focus {
+    outline: none;
+  }
+  .panel__help {
+    margin-top: var(--s-1);
+    color: var(--texto-suave);
+  }
+  .panel__notice {
+    margin-top: var(--s-2);
+    padding: 12px var(--s-2);
+    border: 1px dashed rgba(238, 241, 246, 0.35);
+    border-radius: var(--r-control);
+    font-size: var(--fs-small);
+    line-height: 1.5;
+    color: var(--texto-suave);
+  }
+
+  .form {
+    display: grid;
+    gap: var(--s-2);
+    margin-top: var(--s-3);
+  }
+
+  .field {
+    display: grid;
+    gap: 6px;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+  .field label,
+  .field legend {
+    padding: 0;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--texto);
+  }
+  .field legend {
+    margin-bottom: 6px;
+  }
+
+  input[type='text'],
+  input[type='email'],
+  input[type='tel'],
+  select {
+    width: 100%;
+    min-width: 0;
+    height: 48px;
+    padding: 0 14px;
+    background: rgba(13, 19, 32, 0.6);
+    border: 1px solid rgba(238, 241, 246, 0.22);
+    border-radius: var(--r-control);
+    color: var(--texto);
+    font: inherit;
+    font-size: 1rem; /* 16px evita el zoom en iOS */
+    transition: border-color var(--t-fast) ease, background-color var(--t-fast) ease;
+  }
+  input::placeholder {
+    color: #8792a3;
+    opacity: 1;
+  }
+  input:hover,
+  select:hover {
+    border-color: rgba(238, 241, 246, 0.4);
+  }
+  input:focus,
+  select:focus {
+    outline: none;
+    border-color: var(--nube);
+    background: rgba(13, 19, 32, 0.8);
+  }
+  input:focus-visible,
+  select:focus-visible {
+    outline: 2px solid var(--texto);
+    outline-offset: 3px;
+    border-radius: var(--r-control);
+  }
+  [aria-invalid='true'] {
+    border-color: var(--error) !important;
+  }
+
+  .select {
+    position: relative;
+  }
+  select {
+    appearance: none;
+    padding-right: 32px;
+    cursor: pointer;
+  }
+  select option {
+    background: var(--noche);
+    color: var(--texto);
+  }
+  .select :global(.select__icon) {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    width: 18px;
+    height: 18px;
+    transform: translateY(-50%);
+    color: var(--texto-suave);
+    pointer-events: none;
+  }
+
+  .phone {
+    display: grid;
+    grid-template-columns: minmax(0, 8.5rem) minmax(0, 1fr);
+    gap: var(--s-1);
+  }
+  .phone:has(.phone__other:not([hidden])) {
+    grid-template-columns: minmax(0, 6.5rem) 5rem minmax(0, 1fr);
+  }
+  .phone__other {
+    position: relative;
+  }
+  .phone__other input {
+    padding-left: 24px;
+  }
+  .phone__plus {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-52%);
+    color: var(--texto-suave);
+    pointer-events: none;
+  }
+
+  .field__error {
+    font-size: var(--fs-small);
+    line-height: 1.4;
+    color: var(--error);
+  }
+  .field__error:empty {
+    display: none;
+  }
+
+  .check {
+    display: grid;
+    grid-template-columns: 22px 1fr;
+    gap: 12px;
+    align-items: start;
+  }
+  .check input {
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    margin: 1px 0 0;
+    border: 1px solid rgba(238, 241, 246, 0.4);
+    border-radius: 6px;
+    background: rgba(13, 19, 32, 0.6);
+    display: grid;
+    place-content: center;
+    cursor: pointer;
+    transition: background-color var(--t-fast) ease, border-color var(--t-fast) ease;
+  }
+  .check input::before {
+    content: '';
+    width: 12px;
+    height: 12px;
+    clip-path: polygon(14% 52%, 0 66%, 38% 100%, 100% 22%, 86% 8%, 38% 72%);
+    background: var(--noche);
+    transform: scale(0);
+    transition: transform var(--t-fast) ease;
+  }
+  .check input:checked {
+    background: var(--nube);
+    border-color: var(--nube);
+  }
+  .check input:checked::before {
+    transform: scale(1);
+  }
+  .check input:focus-visible {
+    outline: 2px solid var(--texto);
+    outline-offset: 3px;
+  }
+  .check label {
+    font-size: 0.9375rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--texto-suave);
+    cursor: pointer;
+  }
+  .field--check .field__error {
+    padding-left: 34px;
+  }
+
+  .hp {
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .form__submit {
+    width: 100%;
+    margin-top: var(--s-1);
+  }
+  .form__note {
+    font-size: var(--fs-small);
+    line-height: 1.5;
+    color: var(--texto-suave);
+  }
+  .form__status {
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+  .form__status:empty {
+    display: none;
+  }
+  .form__status[data-tone='error'] {
+    color: var(--error);
+  }
+  .form__status[data-tone='info'] {
+    padding: 12px var(--s-2);
+    border: 1px solid var(--linea);
+    border-radius: var(--r-control);
+    color: var(--texto);
+  }
+
+  .panel__success {
+    display: grid;
+    justify-items: center;
+    text-align: center;
+    padding-block: var(--s-3);
+  }
+  .panel__success[hidden] {
+    display: none;
+  }
+  .panel__success .panel__help {
+    max-width: 34ch;
+    overflow-wrap: anywhere;
+  }
+  .success__mark {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    margin-bottom: var(--s-2);
+    border: 1px solid var(--ok);
+    border-radius: var(--r-pill);
+    color: var(--ok);
+  }
+  .success__mark :global(svg) {
+    width: 24px;
+    height: 24px;
+  }
+  .success__actions {
+    display: grid;
+    gap: 12px;
+    width: 100%;
+    margin-top: var(--s-3);
+  }
+  .panel__success:not([hidden]) {
+    animation: success-in 360ms var(--ease-out) both;
+  }
+  @keyframes success-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+  }
+</style>
+
+<script>
+  import { event } from '../config/event';
+  import { validateRegistration, validateName, validateEmail, toE164, formatNational, onlyDigits } from '../lib/validation';
+  import { buildIcs } from '../lib/ics';
+
+  type FieldName = 'full_name' | 'email' | 'whatsapp' | 'consent';
+
+  const root = document.querySelector<HTMLElement>('[data-register]');
+  if (root) init(root);
+
+  function init(root: HTMLElement) {
+    const config = JSON.parse(root.dataset.config || '{}');
+    const msg = config.messages;
+    const form = root.querySelector<HTMLFormElement>('form')!;
+    const submit = form.querySelector<HTMLButtonElement>('.form__submit')!;
+    const status = form.querySelector<HTMLElement>('.form__status')!;
+    const name = form.querySelector<HTMLInputElement>('#full_name')!;
+    const email = form.querySelector<HTMLInputElement>('#email')!;
+    const cc = form.querySelector<HTMLSelectElement>('#country_code')!;
+    const otherWrap = form.querySelector<HTMLElement>('.phone__other')!;
+    const otherCode = form.querySelector<HTMLInputElement>('#other_code')!;
+    const phone = form.querySelector<HTMLInputElement>('#phone')!;
+    const consent = form.querySelector<HTMLInputElement>('#consent')!;
+    const honeypot = form.querySelector<HTMLInputElement>('#company_website')!;
+
+    if (new URLSearchParams(location.search).has('setup')) {
+      root.querySelector<HTMLElement>('[data-setup-notice]')?.removeAttribute('hidden');
+    }
+
+    const inputsFor: Record<FieldName, HTMLElement[]> = {
+      full_name: [name],
+      email: [email],
+      whatsapp: [phone, otherCode],
+      consent: [consent],
+    };
+
+    const countryCode = () => (cc.value === 'other' ? onlyDigits(otherCode.value) : cc.value);
+
+    function setError(field: FieldName, text: string) {
+      const el = root.querySelector<HTMLElement>(`#${field}-error`)!;
+      el.textContent = text;
+      for (const input of inputsFor[field]) {
+        if (text) input.setAttribute('aria-invalid', 'true');
+        else input.removeAttribute('aria-invalid');
+      }
+    }
+
+    function check(field: FieldName): boolean {
+      let ok = true;
+      if (field === 'full_name') ok = validateName(name.value);
+      if (field === 'email') ok = validateEmail(email.value);
+      if (field === 'whatsapp') ok = toE164(countryCode(), phone.value) !== null;
+      if (field === 'consent') ok = consent.checked;
+      if (ok) setError(field, '');
+      else {
+        const result = validateRegistration(
+          { full_name: name.value, email: email.value, country_code: countryCode(), phone: phone.value, consent: consent.checked },
+          msg,
+        );
+        setError(field, (!result.ok && result.fields[field]) || '');
+      }
+      return ok;
+    }
+
+    // Validación al salir del campo; si ya hay error, se revalida mientras se escribe.
+    const pairs: [HTMLElement, FieldName][] = [
+      [name, 'full_name'],
+      [email, 'email'],
+      [phone, 'whatsapp'],
+      [otherCode, 'whatsapp'],
+    ];
+    for (const [input, field] of pairs) {
+      input.addEventListener('blur', () => {
+        if ((input as HTMLInputElement).value.trim()) check(field);
+      });
+      input.addEventListener('input', () => {
+        if (input.getAttribute('aria-invalid') === 'true') check(field);
+      });
+    }
+    consent.addEventListener('change', () => check('consent'));
+
+    cc.addEventListener('change', () => {
+      const other = cc.value === 'other';
+      otherWrap.hidden = !other;
+      phone.value = formatNational(onlyDigits(phone.value), countryCode());
+      if (other) otherCode.focus();
+      if (phone.getAttribute('aria-invalid') === 'true') check('whatsapp');
+    });
+
+    phone.addEventListener('input', () => {
+      const atEnd = phone.selectionStart === phone.value.length;
+      const formatted = formatNational(onlyDigits(phone.value), countryCode());
+      if (atEnd && formatted !== phone.value) phone.value = formatted;
+    });
+
+    function setBusy(busy: boolean) {
+      submit.disabled = busy;
+      submit.textContent = busy ? config.submitting : config.submit;
+      form.setAttribute('aria-busy', String(busy));
+    }
+
+    function setStatus(text: string, tone: 'error' | 'info' = 'error') {
+      status.textContent = text;
+      status.dataset.tone = tone;
+    }
+
+    function showSuccess(addr: string) {
+      const formView = root.querySelector<HTMLElement>('[data-view="form"]')!;
+      const success = root.querySelector<HTMLElement>('[data-view="success"]')!;
+      success.querySelector<HTMLElement>('[data-success-text]')!.textContent = config.successText.replace('{email}', addr);
+      formView.hidden = true;
+      success.hidden = false;
+      success.querySelector<HTMLElement>('[data-success-title]')!.focus();
+      document.dispatchEvent(new CustomEvent('registered'));
+    }
+
+    root.querySelector('[data-ics]')?.addEventListener('click', () => {
+      const blob = new Blob([buildIcs(event)], { type: 'text/calendar;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = event.ics.filename;
+      document.body.append(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    });
+
+    async function send(payload: Record<string, unknown>): Promise<{ status: number; body: any }> {
+      if (config.endpoint) {
+        const res = await fetch(config.endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        let body: any = {};
+        try {
+          body = await res.json();
+        } catch {}
+        return { status: res.status, body };
+      }
+      // Sin endpoint: en desarrollo se simula la respuesta (?mock=duplicate|error|validation).
+      if (config.dev) {
+        await new Promise((r) => setTimeout(r, 900));
+        const mock = new URLSearchParams(location.search).get('mock');
+        if (mock === 'duplicate') return { status: 409, body: { ok: false, code: 'duplicate' } };
+        if (mock === 'error') return { status: 500, body: { ok: false, code: 'server' } };
+        if (mock === 'validation')
+          return { status: 400, body: { ok: false, code: 'validation', fields: { email: msg.email } } };
+        return { status: 201, body: { ok: true } };
+      }
+      return { status: 0, body: { code: 'not_enabled' } };
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      setStatus('');
+      const fields: FieldName[] = ['full_name', 'email', 'whatsapp', 'consent'];
+      const invalid = fields.filter((field) => !check(field));
+      if (invalid.length) {
+        setStatus(msg.fixFields);
+        (inputsFor[invalid[0]].find((el) => !el.closest('[hidden]')) as HTMLElement).focus();
+        return;
+      }
+
+      const params = new URLSearchParams(location.search);
+      const turnstile = form.querySelector<HTMLInputElement>('[name="cf-turnstile-response"]');
+      const payload = {
+        full_name: name.value,
+        email: email.value,
+        country_code: countryCode(),
+        phone: phone.value,
+        consent: consent.checked,
+        company_website: honeypot.value,
+        utm_source: params.get('utm_source'),
+        utm_medium: params.get('utm_medium'),
+        utm_campaign: params.get('utm_campaign'),
+        referrer: document.referrer || null,
+        turnstile_token: turnstile?.value || null,
+      };
+
+      setBusy(true);
+      try {
+        const { status: code, body } = await send(payload);
+        if (code === 201 || code === 200) {
+          showSuccess(email.value.trim().toLowerCase());
+          return;
+        }
+        if (body?.code === 'not_enabled') setStatus(msg.notEnabledPublic, 'info');
+        else if (code === 409) setStatus(msg.duplicate, 'info');
+        else if (code === 400 && body?.code === 'captcha') setStatus(msg.captcha);
+        else if (code === 400 && body?.fields) {
+          const keys = Object.keys(body.fields) as FieldName[];
+          keys.forEach((k) => inputsFor[k] && setError(k, body.fields[k]));
+          setStatus(msg.fixFields);
+          inputsFor[keys[0]]?.[0]?.focus();
+        } else setStatus(msg.general);
+      } catch {
+        setStatus(msg.general);
+      } finally {
+        setBusy(false);
+        // El botón deshabilitado pierde el foco; se devuelve para seguir con teclado.
+        if (!form.closest('[hidden]') && document.activeElement === document.body) submit.focus();
+        (window as any).turnstile?.reset?.();
+      }
+    });
+  }
+</script>
