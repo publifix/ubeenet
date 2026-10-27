@@ -4,12 +4,12 @@
 
 export interface CalendarEvent {
   name: string;
-  startUtc: string; // ISO, p. ej. 2026-11-26T23:50:00Z
+  startUtc: string; // ISO, p. ej. 2026-11-26T23:45:00Z
   endUtc: string;
   ics: { uid: string; prodId: string; location: string; description: string };
 }
 
-/** 2026-11-26T23:50:00Z → 20261126T235000Z */
+/** 2026-11-26T23:45:00Z → 20261126T234500Z */
 export function toIcsDate(iso: string): string {
   return new Date(iso).toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
 }

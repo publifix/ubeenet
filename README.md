@@ -1,6 +1,6 @@
 # Ubeenet Connect 2026 · Landing de registro
 
-Landing de registro al evento de Ubeenet (jueves 26 de noviembre de 2026, 5:50 a 10:00 pm, Hotel Campos Polanco, CDMX).
+Landing de registro al evento de Ubeenet (jueves 26 de noviembre de 2026, 5:45 a 10:00 pm, Hotel Campos Polanco, CDMX).
 Especificación completa: [`PROMPT_CLAUDE_CODE.md`](PROMPT_CLAUDE_CODE.md).
 
 **Sitio publicado:** https://publifix.github.io/ubeenet/
@@ -87,7 +87,7 @@ Luego en `.env` del sitio: `PUBLIC_REGISTER_ENDPOINT=http://127.0.0.1:54321/func
 .github/workflows/deploy.yml   build + GitHub Pages
 public/brand, public/media     logos y foto de la sede
 src/config/event.ts            ÚNICA fuente de nombre, fecha, sede y textos
-src/components/                Hero, HeroShapes, RegisterForm, Curve, Themes, Agenda, Venue, Partners (oculto), Faq, FinalCta, Footer, StickyCta
+src/components/                Hero, HeroShapes, RegisterForm, Curve, Themes, Venue, Partners (oculto), Faq, FinalCta, Footer, StickyCta
 src/lib/                       validation.ts, ics.ts, paths.ts
 src/pages/                     index, registros/ (panel), aviso-de-privacidad
 supabase/migrations/           0001_registrations.sql

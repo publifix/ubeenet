@@ -5,7 +5,6 @@ import { withBase } from '../lib/paths';
 const { onLanding = true } = Astro.props as { onLanding?: boolean };
 const to = (hash: string) => (onLanding ? hash : withBase(hash));
 const nav = [
-  { href: to('#agenda'), label: 'Agenda' },
   { href: to('#sede'), label: 'Sede' },
   { href: to('#preguntas'), label: 'Preguntas' },
 ];

@@ -19,15 +19,15 @@ export const event = {
     facebook: 'https://www.facebook.com/ubeenet/',
   },
   // Horario de CDMX (UTC−6, sin horario de verano).
-  startUtc: '2026-11-26T23:50:00Z',
+  startUtc: '2026-11-26T23:45:00Z',
   endUtc: '2026-11-27T04:00:00Z',
-  startLocalIso: '2026-11-26T17:50:00-06:00',
+  startLocalIso: '2026-11-26T17:45:00-06:00',
   endLocalIso: '2026-11-26T22:00:00-06:00',
   timeZone: 'America/Mexico_City',
   dateLong: 'Jueves 26 de noviembre de 2026',
   dateShort: 'Jue 26 nov',
-  timeRange: '5:50 pm a 10:00 pm',
-  startTime: '5:50 pm',
+  timeRange: '5:45 pm a 10:00 pm',
+  startTime: '5:45 pm',
   venue: {
     name: 'Hotel Campos Polanco',
     city: 'CDMX',
@@ -107,21 +107,6 @@ export const event = {
         text: 'Una tarde con el equipo de Ubeenet, sus partners y otros líderes de TI.',
       },
     ],
-  },
-  agenda: {
-    title: 'Agenda',
-    // Minute by minute del cliente. TODO: confirmar los tres partners que presentan.
-    items: [
-      { time: '5:50 pm', iso: '17:50', title: 'Bienvenida', detail: 'Te recibe el equipo de Ubeenet.' },
-      { time: '6:00 pm', iso: '18:00', title: 'Presentación de partner', detail: 'Partner por confirmar · 10 min' },
-      { time: '6:10 pm', iso: '18:10', title: 'Presentación de partner', detail: 'Partner por confirmar · 10 min' },
-      { time: '6:20 pm', iso: '18:20', title: 'Presentación de partner', detail: 'Partner por confirmar · 10 min' },
-      { time: '6:30 pm', iso: '18:30', title: 'Cierre de presentaciones', detail: 'Palabras de Ubeenet e invitación al cóctel.' },
-      { time: '6:40 pm', iso: '18:40', title: 'Networking y cóctel', detail: 'Canapés, vinos y cervezas hasta las 9:50 pm.' },
-      { time: '9:50 pm', iso: '21:50', title: 'Palabras de cierre', detail: 'Agradecimiento del equipo de Ubeenet.' },
-      { time: '10:00 pm', iso: '22:00', title: 'Fin del evento', detail: '' },
-    ],
-    note: 'Durante el cóctel habrá cobertura de fotografía y video para las redes de Ubeenet.',
   },
   venueSection: {
     mapsLabel: 'Abrir en Google Maps',

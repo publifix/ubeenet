@@ -13,7 +13,7 @@ Landing de registro de Ubeenet Connect 2026. Especificación: `PROMPT_CLAUDE_COD
 - Textos, fechas y sede solo en `src/config/event.ts`.
 - `src/lib/validation.ts`, `src/lib/ics.ts` y `src/config/event.ts` se copian a `supabase/functions/_shared/` (`npm run sync:shared`); no editar las copias.
 - Estilo: empatar con ubeenet.com (bloques oscuro/claro con curva, líneas blancas, grotesca ligera, botones píldora, formulario en panel blanco) y con la invitación en el hero. Ver `DESIGN.md`. El amarillo #CDA41B no se usa.
-- Fecha confirmada: jueves 26 de noviembre de 2026, 5:50 pm a 10:00 pm (CDMX). Agenda = minute by minute del cliente (en `event.ts`).
+- Fecha y horario (los de la invitación): jueves 26 de noviembre de 2026, 5:45 pm a 10:00 pm (CDMX). El cliente no quiere agenda en la landing.
 - Avisos y copias de cada registro: **elia@blanconuclear.com.mx** (secret `NOTIFY_EMAIL`; la Edge Function lo usa por defecto si el secret no existe).
 - Hero = invitación "Save the date" del cliente: titular SAVE THE DATE en Roboto (700/300/700), subtítulo de la invitación y formas del fondo redibujadas en vector (`src/components/HeroShapes.astro`, colores exactos de la invitación). Sin video ni animación de fondo. El formulario va en el hero (desktop a la derecha, móvil debajo de los datos).
 - Sección Partners oculta hasta confirmar participantes (`Partners.astro` existe, no se usa en `index.astro`).

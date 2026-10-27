@@ -1,5 +1,6 @@
 ---
 import { event } from '../config/event';
+import Curve from './Curve.astro';
 ---
 
 <section class="section" aria-labelledby="temas-titulo">
@@ -16,9 +17,13 @@ import { event } from '../config/event';
       }
     </ul>
   </div>
+  <Curve fill="var(--niebla)" position="bottom" />
 </section>
 
 <style>
+  section {
+    padding-bottom: calc(var(--section-gap) / 2 + var(--curve-h));
+  }
   .themes__item {
     padding-block: var(--s-3) 28px;
   }
