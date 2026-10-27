@@ -1,5 +1,5 @@
 // Genera public/og-image.jpg (1200×630) con las formas de la invitación,
-// el logo, "Save the date" y la fecha del evento. Requiere Playwright:
+// el logo, el titular del hero y la fecha del evento. Requiere Playwright:
 //   npx -y playwright@1 install chromium   (si no está instalado)
 //   node scripts/og-image.mjs
 import { readFileSync } from 'node:fs';
@@ -29,7 +29,7 @@ body { width: 1200px; height: 630px; background: #161C2A; font-family: Roboto; c
 svg { position: absolute; top: 0; right: 0; width: 640px; height: 630px; }
 .inner { position: absolute; inset: 56px 80px 56px; display: flex; flex-direction: column; justify-content: space-between; }
 .logo { width: 150px; }
-h1 { font-size: 112px; line-height: .9; letter-spacing: -0.01em; }
+h1 { font-size: 64px; line-height: 1.05; letter-spacing: -0.015em; max-width: 13ch; }
 h1 span { display: block; }
 .data { font-size: 26px; line-height: 1.35; }
 .data b { letter-spacing: .04em; text-transform: uppercase; }
@@ -37,7 +37,7 @@ h1 span { display: block; }
 <svg viewBox="300 0 724 1280" preserveAspectRatio="none">${shapes}</svg>
 <div class="inner">
   <img class="logo" src="data:image/svg+xml;base64,${b64('public/brand/ubeenet-white.svg')}">
-  <h1><span style="font-weight:700">SAVE</span><span style="font-weight:300">THE</span><span style="font-weight:700">DATE</span></h1>
+  <h1><span style="font-weight:700">Conectemos hoy.</span><span style="font-weight:300">Creemos nuevas oportunidades juntos.</span></h1>
   <p class="data"><b>${date}</b><br>${time} · ${venue}, CDMX</p>
 </div>
 </body></html>`;

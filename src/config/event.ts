@@ -42,18 +42,18 @@ export const event = {
     note: 'Contaremos con servicio de valet parking.',
   },
   meta: {
-    title: 'Save the date · Ubeenet · 26 de noviembre de 2026',
+    title: 'Conectemos hoy · Ubeenet · 26 de noviembre de 2026',
     description:
-      'Una tarde para conectar, compartir ideas y explorar oportunidades juntos. Jueves 26 de noviembre de 2026, Hotel Campos Polanco, CDMX.',
+      'Regístrate y acompáñanos en una tarde para compartir ideas, fortalecer relaciones y descubrir nuevas oportunidades de negocios. Jueves 26 de noviembre de 2026, Hotel Campos Polanco, CDMX.',
   },
   hero: {
-    // Texto de la invitación. Cada palabra va en su línea; el peso replica la invitación.
+    // Cada frase va en su propia línea; el contraste de pesos (700/300) viene de la invitación.
     title: [
-      { text: 'SAVE', weight: 700 },
-      { text: 'THE', weight: 300 },
-      { text: 'DATE', weight: 700 },
+      { text: 'Conectemos hoy.', weight: 700 },
+      { text: 'Creemos nuevas oportunidades juntos.', weight: 300 },
     ],
-    subtitle: 'Una tarde para conectar, compartir ideas y explorar oportunidades juntos.',
+    subtitle:
+      'Regístrate y acompáñanos en una tarde para compartir ideas, fortalecer relaciones y descubrir nuevas oportunidades de negocios.',
     day: 'Jueves',
     date: '26 de noviembre',
   },
