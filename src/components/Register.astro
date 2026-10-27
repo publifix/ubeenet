@@ -1,0 +1,78 @@
+---
+import { event } from '../config/event';
+import Icon from './Icon.astro';
+import RegisterForm from './RegisterForm.astro';
+const r = event.registerSection;
+---
+
+<section class="section register" aria-labelledby="registro-seccion">
+  <div class="container register__grid">
+    <div class="register__copy">
+      <h2 id="registro-seccion">{r.title}</h2>
+      <p class="lead register__text">{r.text}</p>
+      <ul class="register__points" role="list">
+        {
+          r.points.map((point) => (
+            <li>
+              <Icon name="check" />
+              {point}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    <div class="register__form">
+      <RegisterForm />
+    </div>
+  </div>
+</section>
+
+<style>
+  .register__grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--s-3);
+    row-gap: var(--s-6);
+    align-items: start;
+  }
+  .register__copy {
+    grid-column: 1 / span 5;
+    padding-right: var(--s-3);
+  }
+  .register__form {
+    grid-column: 7 / -1;
+  }
+  .register__text {
+    margin-top: var(--s-3);
+    color: var(--texto-suave);
+  }
+  .register__points {
+    list-style: none;
+    margin: var(--s-4) 0 0;
+    padding: 0;
+    border-top: 1px solid var(--linea);
+  }
+  .register__points li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-block: 14px;
+    border-bottom: 1px solid var(--linea);
+  }
+  .register__points :global(svg) {
+    flex: none;
+    width: 20px;
+    height: 20px;
+    color: var(--nube);
+  }
+  @media (max-width: 1023px) {
+    .register__copy,
+    .register__form {
+      grid-column: 1 / -1;
+      padding-right: 0;
+    }
+    .register__form {
+      max-width: 36rem;
+    }
+  }
+</style>

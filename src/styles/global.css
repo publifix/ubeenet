@@ -16,7 +16,7 @@ html {
   scroll-behavior: smooth;
   scroll-padding-top: 88px;
   background: var(--noche);
-  scrollbar-color: rgba(104, 166, 189, 0.35) var(--noche);
+  scrollbar-color: rgba(255, 255, 255, 0.3) var(--noche);
 }
 
 body {
@@ -60,33 +60,34 @@ figure {
   margin: 0;
 }
 
+/* Titulares grandes y ligeros, como ubeenet.com. */
 h1,
 h2,
 h3 {
-  font-weight: 600;
   text-wrap: balance;
 }
 
 .display {
   font-size: var(--fs-display);
-  font-stretch: 75%;
-  line-height: 0.95;
-  letter-spacing: -0.02em;
+  font-weight: 300;
+  line-height: 1.02;
+  letter-spacing: -0.025em;
 }
 
 h2,
 .h2 {
   font-size: var(--fs-h2);
-  font-stretch: 85%;
-  line-height: 1.05;
-  letter-spacing: -0.01em;
+  font-weight: 300;
+  line-height: 1.04;
+  letter-spacing: -0.02em;
 }
 
 h3,
 .h3 {
   font-size: var(--fs-h3);
-  font-stretch: 100%;
-  line-height: 1.2;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.005em;
 }
 
 p {
@@ -94,12 +95,15 @@ p {
   text-wrap: pretty;
 }
 
+.lead {
+  font-size: var(--fs-lead);
+  line-height: 1.45;
+}
+
 .data {
-  font-stretch: 112%;
   font-weight: 500;
-  font-size: 1rem;
+  font-size: 1.0625rem;
   line-height: 1.4;
-  letter-spacing: 0.01em;
   font-variant-numeric: tabular-nums;
 }
 
@@ -117,12 +121,12 @@ a {
   transition: color var(--t-fast) ease, text-decoration-color var(--t-fast) ease;
 }
 a:hover {
-  color: var(--nube-hover);
+  color: #8cbdd0;
   text-decoration-color: currentColor;
 }
 
 :focus-visible {
-  outline: 2px solid var(--texto);
+  outline: 2px solid var(--nube);
   outline-offset: 3px;
   border-radius: 4px;
 }
@@ -134,15 +138,34 @@ a:hover {
   padding-inline: var(--gutter);
 }
 
+/* Bloques de color: oscuro por defecto, claro con .section--light. */
 .section {
+  position: relative;
   padding-block: calc(var(--section-gap) / 2);
 }
-.section + .section {
-  border-top: 1px solid var(--linea);
+.section--light {
+  background: var(--niebla);
+  color: var(--tinta);
+  color-scheme: light;
+}
+.section--light :focus-visible {
+  outline-color: var(--marino);
 }
 
-.section-head {
-  margin-bottom: var(--s-6);
+/* Borde curvo entre bloques, como la transición oscuro → claro de ubeenet.com. */
+.curve {
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: var(--curve-h);
+  pointer-events: none;
+}
+.curve--bottom {
+  bottom: -1px;
+}
+.curve--top {
+  top: -1px;
 }
 
 .visually-hidden {
@@ -163,9 +186,9 @@ a:hover {
   top: -100px;
   z-index: 100;
   padding: var(--s-1) var(--s-2);
-  background: var(--texto);
+  background: var(--blanco);
   color: var(--noche);
-  border-radius: var(--r-control);
+  border-radius: var(--r-pill);
   font-weight: 600;
   text-decoration: none;
 }
@@ -173,60 +196,111 @@ a:hover {
   top: var(--s-2);
 }
 
-/* Botones */
+/* Botones píldora, como "Learn More" de ubeenet.com. */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--s-1);
+  gap: 10px;
   min-height: 52px;
-  padding: 0 var(--s-3);
+  padding: 0 28px;
   border: 1px solid transparent;
-  border-radius: var(--r-control);
+  border-radius: var(--r-pill);
   font: inherit;
-  font-size: var(--fs-body);
-  font-weight: 600;
-  font-stretch: 100%;
+  font-size: 1.0625rem;
+  font-weight: 500;
   line-height: 1;
-  letter-spacing: 0.01em;
   text-decoration: none;
   cursor: pointer;
   transition: background-color var(--t-fast) ease, border-color var(--t-fast) ease, color var(--t-fast) ease;
   -webkit-tap-highlight-color: transparent;
 }
 
+/* Sobre oscuro: píldora blanca con texto noche. */
 .btn-primary {
-  background: var(--nube);
+  background: var(--blanco);
   color: var(--noche);
 }
 .btn-primary:hover {
-  background: var(--nube-hover);
+  background: #dbe9ef;
   color: var(--noche);
 }
-.btn-primary:active {
-  background: var(--nube);
+
+/* Sobre blanco o claro: píldora noche con texto blanco. */
+.btn-dark {
+  background: var(--noche);
+  color: var(--blanco);
 }
-.btn-primary[disabled],
-.btn-primary[aria-disabled='true'] {
+.btn-dark:hover {
+  background: var(--marino);
+  color: var(--blanco);
+}
+.btn-dark[disabled] {
   cursor: progress;
-  background: rgba(104, 166, 189, 0.55);
+  background: #4a5161;
 }
 
 .btn-secondary {
   background: transparent;
   color: var(--texto);
-  border-color: rgba(238, 241, 246, 0.28);
+  border-color: var(--linea);
 }
 .btn-secondary:hover {
   color: var(--texto);
-  border-color: var(--texto);
-  background: rgba(238, 241, 246, 0.05);
+  border-color: var(--blanco);
+  background: rgba(255, 255, 255, 0.06);
+}
+.section--light .btn-secondary {
+  color: var(--tinta);
+  border-color: rgba(13, 19, 32, 0.45);
+}
+.section--light .btn-secondary:hover {
+  border-color: var(--tinta);
+  background: rgba(13, 19, 32, 0.05);
 }
 
 .btn svg {
   width: 18px;
   height: 18px;
   flex: none;
+}
+
+/* Secciones: título grande a la izquierda, contenido con líneas a la derecha. */
+.split {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--s-3);
+  row-gap: var(--s-4);
+  align-items: start;
+}
+.split > * {
+  grid-column: 6 / -1;
+}
+.split > .split__head {
+  grid-column: 1 / span 5;
+  padding-right: var(--s-3);
+}
+@media (max-width: 1023px) {
+  .split > *,
+  .split > .split__head {
+    grid-column: 1 / -1;
+    padding-right: 0;
+  }
+}
+
+/* Lista con separadores blancos (el lenguaje del acordeón "Our Services"). */
+.rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--linea);
+}
+.rows > * {
+  border-bottom: 1px solid var(--linea);
+}
+.section--light .rows,
+.section--light .rows > * {
+  border-color: var(--linea-clara);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -239,28 +313,5 @@ a:hover {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-  }
-}
-
-/* Secciones: título a la izquierda (4 col), contenido a la derecha (8 col). */
-.split {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  column-gap: var(--s-3);
-  row-gap: var(--s-4);
-  align-items: start;
-}
-.split > * {
-  grid-column: 5 / -1;
-}
-.split > .split__head {
-  grid-column: 1 / span 4;
-  padding-right: var(--s-3);
-}
-@media (max-width: 1023px) {
-  .split > *,
-  .split > .split__head {
-    grid-column: 1 / -1;
-    padding-right: 0;
   }
 }

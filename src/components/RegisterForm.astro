@@ -126,9 +126,9 @@ const config = {
         <input id="company_website" name="company_website" type="text" tabindex="-1" autocomplete="off" />
       </div>
 
-      {turnstileKey && <div class="cf-turnstile" data-sitekey={turnstileKey} data-theme="dark" data-appearance="managed" data-language="es" />}
+      {turnstileKey && <div class="cf-turnstile" data-sitekey={turnstileKey} data-theme="light" data-appearance="managed" data-language="es" />}
 
-      <button class="btn btn-primary form__submit" type="submit">{f.submit}</button>
+      <button class="btn btn-dark form__submit" type="submit">{f.submit}</button>
       <p class="form__note">{f.note}</p>
       <p class="form__status" role="status" aria-live="polite"></p>
     </form>
@@ -139,7 +139,7 @@ const config = {
     <h2 class="panel__title" tabindex="-1" data-success-title>{f.successTitle}</h2>
     <p class="panel__help" data-success-text></p>
     <div class="success__actions">
-      <a class="btn btn-primary" href={gcalUrl} target="_blank" rel="noopener">
+      <a class="btn btn-dark" href={gcalUrl} target="_blank" rel="noopener">
         <Icon name="calendar" />{f.googleCalendar}
       </a>
       <button class="btn btn-secondary" type="button" data-ics>
@@ -152,42 +152,53 @@ const config = {
 {turnstileKey && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}
 
 <style>
+  /* Panel blanco sobre el hero oscuro: máximo contraste, como las tarjetas claras de ubeenet.com. */
   .panel {
     position: relative;
-    padding: clamp(var(--s-3), 3vw, var(--s-4));
-    background: var(--superficie);
-    -webkit-backdrop-filter: blur(16px);
-    backdrop-filter: blur(16px);
-    border: 1px solid var(--linea);
+    padding: clamp(var(--s-3), 3vw, 40px);
+    background: var(--blanco);
+    color: var(--tinta);
+    color-scheme: light;
     border-radius: var(--r-panel);
     scroll-margin-top: 96px;
   }
+  .panel :focus-visible {
+    outline-color: var(--marino);
+  }
+  .panel a {
+    color: var(--enlace-claro);
+    text-decoration-color: rgba(47, 111, 135, 0.45);
+  }
+  .panel a:hover {
+    color: var(--marino);
+    text-decoration-color: currentColor;
+  }
   .panel__title {
-    font-size: 1.625rem;
-    font-stretch: 85%;
+    font-size: clamp(1.75rem, 1vw + 1.4rem, 2.125rem);
+    font-weight: 400;
     line-height: 1.1;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.02em;
   }
   .panel__title:focus {
     outline: none;
   }
   .panel__help {
     margin-top: var(--s-1);
-    color: var(--texto-suave);
+    color: var(--tinta-suave);
   }
   .panel__notice {
     margin-top: var(--s-2);
     padding: 12px var(--s-2);
-    border: 1px dashed rgba(238, 241, 246, 0.35);
+    border: 1px dashed rgba(13, 19, 32, 0.35);
     border-radius: var(--r-control);
     font-size: var(--fs-small);
     line-height: 1.5;
-    color: var(--texto-suave);
+    color: var(--tinta-suave);
   }
 
   .form {
     display: grid;
-    gap: var(--s-2);
+    gap: 18px;
     margin-top: var(--s-3);
   }
 
@@ -205,7 +216,7 @@ const config = {
     font-size: 0.9375rem;
     font-weight: 500;
     line-height: 1.4;
-    color: var(--texto);
+    color: var(--tinta);
   }
   .field legend {
     margin-bottom: 6px;
@@ -217,38 +228,32 @@ const config = {
   select {
     width: 100%;
     min-width: 0;
-    height: 48px;
+    height: 50px;
     padding: 0 14px;
-    background: rgba(13, 19, 32, 0.6);
-    border: 1px solid rgba(238, 241, 246, 0.22);
+    background: var(--blanco);
+    border: 1px solid #c4c9d1;
     border-radius: var(--r-control);
-    color: var(--texto);
+    color: var(--tinta);
     font: inherit;
     font-size: 1rem; /* 16px evita el zoom en iOS */
-    transition: border-color var(--t-fast) ease, background-color var(--t-fast) ease;
+    transition: border-color var(--t-fast) ease, box-shadow var(--t-fast) ease;
   }
   input::placeholder {
-    color: #8792a3;
+    color: #6b7280;
     opacity: 1;
   }
   input:hover,
   select:hover {
-    border-color: rgba(238, 241, 246, 0.4);
+    border-color: #8a909b;
   }
   input:focus,
   select:focus {
     outline: none;
-    border-color: var(--nube);
-    background: rgba(13, 19, 32, 0.8);
-  }
-  input:focus-visible,
-  select:focus-visible {
-    outline: 2px solid var(--texto);
-    outline-offset: 3px;
-    border-radius: var(--r-control);
+    border-color: var(--marino);
+    box-shadow: 0 0 0 3px rgba(104, 166, 189, 0.35);
   }
   [aria-invalid='true'] {
-    border-color: var(--error) !important;
+    border-color: var(--error-claro) !important;
   }
 
   .select {
@@ -259,10 +264,6 @@ const config = {
     padding-right: 32px;
     cursor: pointer;
   }
-  select option {
-    background: var(--noche);
-    color: var(--texto);
-  }
   .select :global(.select__icon) {
     position: absolute;
     right: 8px;
@@ -270,7 +271,7 @@ const config = {
     width: 18px;
     height: 18px;
     transform: translateY(-50%);
-    color: var(--texto-suave);
+    color: var(--tinta-suave);
     pointer-events: none;
   }
 
@@ -293,14 +294,14 @@ const config = {
     left: 12px;
     top: 50%;
     transform: translateY(-52%);
-    color: var(--texto-suave);
+    color: var(--tinta-suave);
     pointer-events: none;
   }
 
   .field__error {
     font-size: var(--fs-small);
     line-height: 1.4;
-    color: var(--error);
+    color: var(--error-claro);
   }
   .field__error:empty {
     display: none;
@@ -317,9 +318,9 @@ const config = {
     width: 22px;
     height: 22px;
     margin: 1px 0 0;
-    border: 1px solid rgba(238, 241, 246, 0.4);
+    border: 1px solid #8a909b;
     border-radius: 6px;
-    background: rgba(13, 19, 32, 0.6);
+    background: var(--blanco);
     display: grid;
     place-content: center;
     cursor: pointer;
@@ -330,26 +331,26 @@ const config = {
     width: 12px;
     height: 12px;
     clip-path: polygon(14% 52%, 0 66%, 38% 100%, 100% 22%, 86% 8%, 38% 72%);
-    background: var(--noche);
+    background: var(--blanco);
     transform: scale(0);
     transition: transform var(--t-fast) ease;
   }
   .check input:checked {
-    background: var(--nube);
-    border-color: var(--nube);
+    background: var(--noche);
+    border-color: var(--noche);
   }
   .check input:checked::before {
     transform: scale(1);
   }
   .check input:focus-visible {
-    outline: 2px solid var(--texto);
+    outline: 2px solid var(--marino);
     outline-offset: 3px;
   }
   .check label {
     font-size: 0.9375rem;
     font-weight: 400;
     line-height: 1.5;
-    color: var(--texto-suave);
+    color: var(--tinta-suave);
     cursor: pointer;
   }
   .field--check .field__error {
@@ -372,7 +373,7 @@ const config = {
   .form__note {
     font-size: var(--fs-small);
     line-height: 1.5;
-    color: var(--texto-suave);
+    color: var(--tinta-suave);
   }
   .form__status {
     font-size: 0.9375rem;
@@ -382,13 +383,13 @@ const config = {
     display: none;
   }
   .form__status[data-tone='error'] {
-    color: var(--error);
+    color: var(--error-claro);
   }
   .form__status[data-tone='info'] {
     padding: 12px var(--s-2);
-    border: 1px solid var(--linea);
+    background: #eef2f6;
     border-radius: var(--r-control);
-    color: var(--texto);
+    color: var(--tinta);
   }
 
   .panel__success {
@@ -407,12 +408,12 @@ const config = {
   .success__mark {
     display: grid;
     place-items: center;
-    width: 48px;
-    height: 48px;
+    width: 52px;
+    height: 52px;
     margin-bottom: var(--s-2);
-    border: 1px solid var(--ok);
+    border: 1px solid var(--ok-claro);
     border-radius: var(--r-pill);
-    color: var(--ok);
+    color: var(--ok-claro);
   }
   .success__mark :global(svg) {
     width: 24px;
@@ -423,6 +424,14 @@ const config = {
     gap: 12px;
     width: 100%;
     margin-top: var(--s-3);
+  }
+  .success__actions .btn-secondary {
+    color: var(--tinta);
+    border-color: rgba(13, 19, 32, 0.4);
+  }
+  .success__actions .btn-secondary:hover {
+    border-color: var(--tinta);
+    background: rgba(13, 19, 32, 0.04);
   }
   .panel__success:not([hidden]) {
     animation: success-in 360ms var(--ease-out) both;

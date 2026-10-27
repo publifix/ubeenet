@@ -34,22 +34,23 @@ import { event } from '../config/event';
 </style>
 
 <script>
-  // Barra fija en móvil: se oculta mientras el formulario está a la vista y después del registro.
+  // Barra fija en móvil: se oculta mientras el botón del hero o el formulario están a la vista, y tras registrarse.
   const bar = document.querySelector<HTMLElement>('[data-sticky-cta]');
-  const panel = document.getElementById('registro');
-  if (bar && panel) {
+  const targets = [document.querySelector('.hero__cta'), document.getElementById('registro')].filter(Boolean) as Element[];
+  if (bar && targets.length) {
     bar.hidden = false;
-    let formVisible = true;
+    const visible = new Set<Element>();
     let done = false;
-    const sync = () => bar.toggleAttribute('data-hidden', formVisible || done);
-    new IntersectionObserver(([entry]) => {
-      formVisible = entry.isIntersecting;
+    const sync = () => bar.toggleAttribute('data-hidden', visible.size > 0 || done);
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) e.isIntersecting ? visible.add(e.target) : visible.delete(e.target);
       sync();
-    }).observe(panel);
+    });
+    targets.forEach((t) => io.observe(t));
     document.addEventListener('registered', () => {
       done = true;
       sync();
     });
-    sync();
+    bar.setAttribute('data-hidden', '');
   }
 </script>

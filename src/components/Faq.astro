@@ -9,7 +9,7 @@ const linkify = (text: string) =>
     .replace(event.organizer.phone, `<a href="${event.organizer.phoneHref}">${event.organizer.phone}</a>`);
 ---
 
-<section class="section" aria-labelledby="faq-titulo">
+<section class="section" id="preguntas" aria-labelledby="faq-titulo">
   <div class="container split">
     <h2 id="faq-titulo" class="split__head">{event.faq.title}</h2>
     <div class="faq">
@@ -42,8 +42,8 @@ const linkify = (text: string) =>
     gap: var(--s-2);
     min-height: 64px;
     padding-block: var(--s-2);
-    font-size: 1.1875rem;
-    font-weight: 500;
+    font-size: clamp(1.125rem, 0.6vw + 1rem, 1.375rem);
+    font-weight: 400;
     line-height: 1.35;
     cursor: pointer;
     list-style: none;
@@ -53,7 +53,7 @@ const linkify = (text: string) =>
     display: none;
   }
   summary:hover {
-    color: var(--nube-hover);
+    color: #dbe9ef;
   }
   summary:focus-visible {
     outline-offset: 2px;

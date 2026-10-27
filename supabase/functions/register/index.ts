@@ -1,7 +1,9 @@
 // Edge Function pública de registro. Desplegar con --no-verify-jwt:
 //   supabase functions deploy register --no-verify-jwt
 // Secrets: RESEND_API_KEY, RESEND_FROM, ALLOWED_ORIGINS, SITE_PUBLIC_URL,
-//          TURNSTILE_SECRET (opcional), NOTIFY_EMAIL (opcional).
+//          TURNSTILE_SECRET (opcional), NOTIFY_EMAIL (opcional, varios separados por coma).
+// Los avisos internos de cada registro van a NOTIFY_EMAIL o, si no existe,
+// a DEFAULT_NOTIFY_EMAIL (indicación del cliente).
 import { createClient } from 'npm:@supabase/supabase-js@2';
 import { event } from '../_shared/event.ts';
 import { buildIcs } from '../_shared/ics.ts';
@@ -14,6 +16,7 @@ const ALLOWED_ORIGINS = env('ALLOWED_ORIGINS')
   .split(',')
   .map((o) => o.trim().replace(/\/$/, ''))
   .filter(Boolean);
+const DEFAULT_NOTIFY_EMAIL = 'elia@blanconuclear.com.mx';
 const RATE_LIMIT = 5;
 const RATE_WINDOW_MIN = 10;
 
@@ -174,14 +177,23 @@ Deno.serve(async (req) => {
   });
   await supabase.from('registrations').update({ email_status: sent ? 'sent' : 'failed' }).eq('id', inserted.id);
 
-  const notify = env('NOTIFY_EMAIL');
-  if (notify) {
-    await sendEmail({
-      to: notify.split(',').map((e) => e.trim()),
-      subject: `Nuevo registro: ${data.full_name}`,
-      text: `${data.full_name}\n${data.email}\n${data.whatsapp}\nCorreo de confirmación: ${sent ? 'enviado' : 'falló'}`,
-    });
-  }
+  // Aviso interno de cada registro (con el estado del correo de confirmación).
+  const notify = (env('NOTIFY_EMAIL') || DEFAULT_NOTIFY_EMAIL).split(',').map((e) => e.trim()).filter(Boolean);
+  const when = new Intl.DateTimeFormat('es-MX', { timeZone: event.timeZone, dateStyle: 'medium', timeStyle: 'short' }).format(new Date());
+  await sendEmail({
+    to: notify,
+    subject: `Nuevo registro · ${event.name}: ${data.full_name}`,
+    text: [
+      `Nuevo registro en ${event.name}`,
+      '',
+      `Nombre: ${data.full_name}`,
+      `Correo: ${data.email}`,
+      `WhatsApp: ${data.whatsapp} (https://wa.me/${data.whatsapp.slice(1)})`,
+      `Fecha de registro: ${when} (CDMX)`,
+      `Correo de confirmación: ${sent ? 'enviado' : 'FALLÓ, contactar manualmente'}`,
+      clip(body.utm_source) ? `Campaña: ${clip(body.utm_source)} / ${clip(body.utm_medium) ?? '-'} / ${clip(body.utm_campaign) ?? '-'}` : '',
+    ].filter(Boolean).join('\n'),
+  });
 
   return json({ ok: true }, 201, origin);
 });

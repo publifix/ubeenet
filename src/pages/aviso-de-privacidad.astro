@@ -3,12 +3,11 @@ import Base from '../layouts/Base.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { event } from '../config/event';
-import { withBase } from '../lib/paths';
 const o = event.organizer;
 ---
 
 <Base title={`Aviso de privacidad · ${event.name}`} description={`Aviso de privacidad del registro a ${event.name}.`} path="aviso-de-privacidad/">
-  <Header ctaHref={withBase('#registro')} />
+  <Header onLanding={false} />
   <main class="container legal"><div class="legal__body">
     <h1 class="h2">Aviso de privacidad</h1>
     <p class="legal__todo">TODO: texto legal del cliente. Este contenido es provisional y debe ser revisado por Ubeenet.</p>

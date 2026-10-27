@@ -22,15 +22,15 @@ const time = pick('timeRange');
 const venue = config.match(/venue: \{\s*name: '([^']+)'/)[1];
 
 const html = `<!doctype html><html><head><meta charset="utf-8"><style>
-@font-face { font-family: Saira; src: url(data:font/woff2;base64,${b64('src/assets/fonts/saira-latin-wdth.woff2')}) format('woff2'); font-weight: 100 900; font-stretch: 50% 125%; }
+@font-face { font-family: Hanken; src: url(data:font/woff2;base64,${b64('src/assets/fonts/hanken-latin.woff2')}) format('woff2'); font-weight: 100 900; }
 * { margin: 0; box-sizing: border-box; }
-body { width: 1200px; height: 630px; background: #0D1320; font-family: Saira; color: #EEF1F6; overflow: hidden; }
-.bg { position: absolute; inset: 0; background: url(data:image/jpeg;base64,${b64('public/media/bg-poster.jpg')}) 62% 50% / 1400px auto no-repeat; }
-.shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(13,19,32,.92) 0%, rgba(13,19,32,.55) 55%, rgba(13,19,32,.2) 100%); }
+body { width: 1200px; height: 630px; background: #0D1320; font-family: Hanken; color: #FFFFFF; overflow: hidden; }
+.bg { position: absolute; inset: 0; background: url(data:image/jpeg;base64,${b64('public/media/bg-poster.jpg')}) 30% 45% / 1500px auto no-repeat; }
+.shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(13,19,32,.9) 0%, rgba(13,19,32,.5) 45%, rgba(13,19,32,0) 70%); }
 .inner { position: absolute; inset: 64px 80px 60px; display: flex; flex-direction: column; justify-content: space-between; }
 .logo { width: 170px; }
-h1 { font-size: 88px; margin-top: 28px; font-weight: 600; font-stretch: 75%; line-height: .95; letter-spacing: -0.02em; max-width: 8ch; }
-.data { font-size: 28px; font-weight: 500; font-stretch: 112%; color: #B9C2D0; letter-spacing: .01em; border-top: 1px solid rgba(104,166,189,.35); padding-top: 20px; }
+h1 { font-size: 84px; margin-top: 28px; font-weight: 300; line-height: 1.02; letter-spacing: -0.025em; max-width: 8ch; }
+.data { font-size: 26px; font-weight: 500; color: #FFFFFF; border-top: 1px solid rgba(255,255,255,.7); padding-top: 20px; max-width: 640px; }
 </style></head><body>
 <div class="bg"></div><div class="shade"></div>
 <div class="inner">

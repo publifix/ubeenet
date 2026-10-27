@@ -22,10 +22,10 @@ export function confirmationEmail(fullName: string, siteUrl: string) {
 
   const row = (label: string, value: string) => `
     <tr>
-      <td style="padding:0 0 4px 0;font:400 13px/18px ${font};color:#B9C2D0;">${label}</td>
+      <td style="padding:0 0 4px 0;font:400 13px/18px ${font};color:#4A5161;">${label}</td>
     </tr>
     <tr>
-      <td style="padding:0 0 16px 0;font:700 16px/22px ${font};color:#EEF1F6;">${value}</td>
+      <td style="padding:0 0 16px 0;font:700 16px/22px ${font};color:#0D1320;">${value}</td>
     </tr>`;
 
   const html = `<!doctype html>
@@ -49,40 +49,40 @@ export function confirmationEmail(fullName: string, siteUrl: string) {
           </td>
         </tr>
         <tr>
-          <td bgcolor="#243867" style="background:#243867;border-radius:16px;padding:32px;">
+          <td bgcolor="#FFFFFF" style="background:#FFFFFF;border-radius:20px;padding:32px;">
             <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
               <tr>
-                <td style="padding:0 0 8px 0;font:700 24px/30px ${font};color:#EEF1F6;">Hola ${esc(name)}, tu lugar está reservado.</td>
+                <td style="padding:0 0 8px 0;font:400 26px/32px ${font};color:#0D1320;">Hola ${esc(name)}, tu lugar está reservado.</td>
               </tr>
               <tr>
-                <td style="padding:0 0 24px 0;font:400 16px/24px ${font};color:#B9C2D0;">Te esperamos en ${esc(event.name)}.</td>
+                <td style="padding:0 0 24px 0;font:400 16px/24px ${font};color:#4A5161;">Te esperamos en ${esc(event.name)}.</td>
               </tr>
               ${row('Fecha', esc(event.dateLong))}
               ${row('Horario', esc(event.timeRange))}
-              ${row('Sede', `${esc(v.name)}<br><span style="font-weight:400;color:#B9C2D0;">${esc(v.address)}</span><br><a href="${v.mapsUrl}" style="font-weight:400;color:#68A6BD;">Ver en Google Maps</a>`)}
+              ${row('Sede', `${esc(v.name)}<br><span style="font-weight:400;color:#4A5161;">${esc(v.address)}</span><br><a href="${v.mapsUrl}" style="font-weight:400;color:#2F6F87;">Ver en Google Maps</a>`)}
               <tr>
                 <td style="padding:8px 0 12px 0;">
                   <table role="presentation" cellpadding="0" cellspacing="0" border="0">
                     <tr>
-                      <td bgcolor="#68A6BD" style="border-radius:10px;">
-                        <a href="${gcal}" style="display:inline-block;padding:14px 24px;font:700 16px/20px ${font};color:#0D1320;text-decoration:none;border-radius:10px;">Agregar a Google Calendar</a>
+                      <td bgcolor="#0D1320" style="border-radius:999px;">
+                        <a href="${gcal}" style="display:inline-block;padding:14px 28px;font:700 16px/20px ${font};color:#FFFFFF;text-decoration:none;border-radius:999px;">Agregar a Google Calendar</a>
                       </td>
                     </tr>
                   </table>
                 </td>
               </tr>
               <tr>
-                <td style="padding:0 0 24px 0;font:400 14px/20px ${font};color:#B9C2D0;">También adjuntamos el archivo para Outlook y Apple Calendar.</td>
+                <td style="padding:0 0 24px 0;font:400 14px/20px ${font};color:#4A5161;">También adjuntamos el archivo para Outlook y Apple Calendar.</td>
               </tr>
               <tr>
-                <td style="padding:16px 0 0 0;border-top:1px solid #3A5287;font:400 15px/22px ${font};color:#EEF1F6;">Llega desde las ${esc(event.startTime)} para tu registro.</td>
+                <td style="padding:16px 0 0 0;border-top:1px solid #E1E3E7;font:400 15px/22px ${font};color:#0D1320;">Llega desde las ${esc(event.startTime)} para tu registro.</td>
               </tr>
             </table>
           </td>
         </tr>
         <tr>
           <td style="padding:24px 0 0 0;font:400 14px/21px ${font};color:#B9C2D0;">
-            ¿Dudas? <a href="mailto:${o.email}" style="color:#68A6BD;">${o.email}</a> · <a href="${o.phoneHref}" style="color:#68A6BD;">${o.phone}</a>
+            ¿Dudas? <a href="mailto:${o.email}" style="color:#8CBDD0;">${o.email}</a> · <a href="${o.phoneHref}" style="color:#8CBDD0;">${o.phone}</a>
           </td>
         </tr>
         <tr>
