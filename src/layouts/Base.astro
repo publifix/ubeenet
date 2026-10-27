@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import fontUrl from '../assets/fonts/hanken-latin.woff2?url';
+import titleFontUrl from '../assets/fonts/roboto-latin.woff2?url';
 import { event } from '../config/event';
 import { withBase, absoluteUrl } from '../lib/paths';
 
@@ -36,6 +37,7 @@ const ogImage = absoluteUrl('og-image.jpg');
     <meta name="theme-color" content="#0D1320" />
     <link rel="icon" href={withBase('favicon.svg')} type="image/svg+xml" />
     <link rel="preload" href={fontUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={titleFontUrl} as="font" type="font/woff2" crossorigin />
 
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="es_MX" />

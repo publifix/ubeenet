@@ -1,0 +1,36 @@
+---
+// Formas del fondo de la invitación "Save the date", redibujadas en vector
+// (viewBox de la invitación, 1024 × 1280). El trazo del mismo color oculta las
+// costuras entre regiones.
+interface Props {
+  class?: string;
+  stretch?: boolean; // en desktop se estira al alto del hero
+}
+const { class: className, stretch = false } = Astro.props;
+---
+
+<svg
+  class={className}
+  viewBox="300 0 724 1280"
+  preserveAspectRatio={stretch ? 'none' : 'xMaxYMin slice'}
+  aria-hidden="true"
+  focusable="false"
+>
+  <g stroke-width="2" stroke-linejoin="round">
+    <path fill="#152534" stroke="#152534" d="M782 378C720 520 560 760 470 960C420 1080 396 1180 392 1280H1024V378Z" />
+    <path fill="#283F4F" stroke="#283F4F" d="M782 378C740 470 640 700 615 880C595 1040 640 1180 705 1280H1024V378Z" />
+    <path fill="#334E61" stroke="#334E61" d="M832 805C780 930 718 1100 712 1280H1024V1160C940 1110 880 1000 832 805Z" />
+    <path fill="#392153" stroke="#392153" d="M340 0C520 80 700 220 782 378L885 168C850 120 790 60 718 0Z" />
+    <path fill="#3B3D63" stroke="#3B3D63" d="M718 0C790 60 850 120 885 168C920 110 945 60 970 0Z" />
+    <path
+      fill="#3B3D63"
+      stroke="#3B3D63"
+      d="M885 168L782 378C800 420 806 480 806 560C808 660 816 740 832 805C880 690 960 520 976 400C984 300 945 230 885 168Z"
+    />
+    <path
+      fill="#3E4D6A"
+      stroke="#3E4D6A"
+      d="M970 0H1024V1160C940 1110 880 1000 832 805C880 690 960 520 976 400C984 300 945 230 885 168C920 110 945 60 970 0Z"
+    />
+  </g>
+</svg>

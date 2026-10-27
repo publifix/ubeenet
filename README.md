@@ -11,7 +11,6 @@ Especificación completa: [`PROMPT_CLAUDE_CODE.md`](PROMPT_CLAUDE_CODE.md).
 | Hosting | GitHub Pages, deploy con GitHub Actions en cada push a `main` |
 | Datos | Supabase (Postgres + RLS + Auth + Edge Functions) |
 | Correo | Resend, solo desde la Edge Function |
-| Fondo animado | HyperFrames → WebM/MP4 en loop (`hyperframes/bg-loop`): nubes de red con nodos y paquetes |
 | Anti-spam | Honeypot + rate limit + Cloudflare Turnstile (opcional) |
 
 ## Correr local
@@ -37,7 +36,6 @@ Otros comandos:
 ```bash
 npm run build          # build de producción en dist/
 npm run preview        # sirve dist/
-npm run media          # re-render del fondo HyperFrames + export a public/media (Node ≥ 22 y FFmpeg)
 npm run og-image       # regenera public/og-image.jpg (requiere Playwright)
 ```
 
@@ -87,10 +85,9 @@ Luego en `.env` del sitio: `PUBLIC_REGISTER_ENDPOINT=http://127.0.0.1:54321/func
 
 ```
 .github/workflows/deploy.yml   build + GitHub Pages
-hyperframes/bg-loop/           composición del fondo (desktop) · mobile/ (9:16) · export.sh
-public/brand, public/media     logos y video del fondo
+public/brand, public/media     logos y foto de la sede
 src/config/event.ts            ÚNICA fuente de nombre, fecha, sede y textos
-src/components/                Hero, Register, RegisterForm, Curve, Themes, Agenda, Venue, Partners, Faq, FinalCta, Footer, BgVideo, StickyCta
+src/components/                Hero, HeroShapes, RegisterForm, Curve, Themes, Agenda, Venue, Partners (oculto), Faq, FinalCta, Footer, StickyCta
 src/lib/                       validation.ts, ics.ts, paths.ts
 src/pages/                     index, registros/ (panel), aviso-de-privacidad
 supabase/migrations/           0001_registrations.sql

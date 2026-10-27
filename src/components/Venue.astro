@@ -2,6 +2,7 @@
 import { event } from '../config/event';
 import { withBase } from '../lib/paths';
 import Icon from './Icon.astro';
+import Curve from './Curve.astro';
 const v = event.venue;
 const src = (w: number) => withBase(`media/venue-${w}.webp`);
 ---
@@ -39,9 +40,13 @@ const src = (w: number) => withBase(`media/venue-${w}.webp`);
       </picture>
     </figure>
   </div>
+  <Curve fill="var(--noche)" position="bottom" flip />
 </section>
 
 <style>
+  .venue {
+    padding-bottom: calc(var(--section-gap) / 2 + var(--curve-h));
+  }
   .venue__grid {
     display: grid;
     grid-template-columns: repeat(12, minmax(0, 1fr));

@@ -34,9 +34,9 @@ import { event } from '../config/event';
 </style>
 
 <script>
-  // Barra fija en móvil: se oculta mientras el botón del hero o el formulario están a la vista, y tras registrarse.
+  // Barra fija en móvil: se oculta mientras el formulario está a la vista y tras registrarse.
   const bar = document.querySelector<HTMLElement>('[data-sticky-cta]');
-  const targets = [document.querySelector('.hero__cta'), document.getElementById('registro')].filter(Boolean) as Element[];
+  const targets = [document.getElementById('registro')].filter(Boolean) as Element[];
   if (bar && targets.length) {
     bar.hidden = false;
     const visible = new Set<Element>();

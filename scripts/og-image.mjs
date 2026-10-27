@@ -1,5 +1,5 @@
-// Genera public/og-image.jpg (1200×630) desde el primer frame del fondo
-// HyperFrames + logo + nombre y fecha del evento. Requiere Playwright:
+// Genera public/og-image.jpg (1200×630) con las formas de la invitación,
+// el logo, "Save the date" y la fecha del evento. Requiere Playwright:
 //   npx -y playwright@1 install chromium   (si no está instalado)
 //   node scripts/og-image.mjs
 import { readFileSync } from 'node:fs';
@@ -13,30 +13,32 @@ const { chromium } = require('playwright');
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const b64 = (p) => readFileSync(resolve(root, p)).toString('base64');
 
-// Lee nombre, fecha y sede de src/config/event.ts sin compilar TypeScript.
+// Lee fecha, horario y sede de src/config/event.ts sin compilar TypeScript.
 const config = readFileSync(resolve(root, 'src/config/event.ts'), 'utf8');
 const pick = (key) => config.match(new RegExp(`${key}: '([^']+)'`))[1];
-const name = pick('name');
 const date = pick('dateLong');
 const time = pick('timeRange');
 const venue = config.match(/venue: \{\s*name: '([^']+)'/)[1];
+// Formas de la invitación, tomadas del mismo componente que usa el hero.
+const shapes = readFileSync(resolve(root, 'src/components/HeroShapes.astro'), 'utf8').match(/<g[\s\S]*<\/g>/)[0];
 
 const html = `<!doctype html><html><head><meta charset="utf-8"><style>
-@font-face { font-family: Hanken; src: url(data:font/woff2;base64,${b64('src/assets/fonts/hanken-latin.woff2')}) format('woff2'); font-weight: 100 900; }
+@font-face { font-family: Roboto; src: url(data:font/woff2;base64,${b64('src/assets/fonts/roboto-latin.woff2')}) format('woff2'); font-weight: 100 900; }
 * { margin: 0; box-sizing: border-box; }
-body { width: 1200px; height: 630px; background: #0D1320; font-family: Hanken; color: #FFFFFF; overflow: hidden; }
-.bg { position: absolute; inset: 0; background: url(data:image/jpeg;base64,${b64('public/media/bg-poster.jpg')}) 30% 45% / 1500px auto no-repeat; }
-.shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(13,19,32,.9) 0%, rgba(13,19,32,.5) 45%, rgba(13,19,32,0) 70%); }
-.inner { position: absolute; inset: 64px 80px 60px; display: flex; flex-direction: column; justify-content: space-between; }
-.logo { width: 170px; }
-h1 { font-size: 84px; margin-top: 28px; font-weight: 300; line-height: 1.02; letter-spacing: -0.025em; max-width: 8ch; }
-.data { font-size: 26px; font-weight: 500; color: #FFFFFF; border-top: 1px solid rgba(255,255,255,.7); padding-top: 20px; max-width: 640px; }
+body { width: 1200px; height: 630px; background: #161C2A; font-family: Roboto; color: #FFFFFF; overflow: hidden; position: relative; }
+svg { position: absolute; top: 0; right: 0; width: 640px; height: 630px; }
+.inner { position: absolute; inset: 56px 80px 56px; display: flex; flex-direction: column; justify-content: space-between; }
+.logo { width: 150px; }
+h1 { font-size: 112px; line-height: .9; letter-spacing: -0.01em; }
+h1 span { display: block; }
+.data { font-size: 26px; line-height: 1.35; }
+.data b { letter-spacing: .04em; text-transform: uppercase; }
 </style></head><body>
-<div class="bg"></div><div class="shade"></div>
+<svg viewBox="300 0 724 1280" preserveAspectRatio="none">${shapes}</svg>
 <div class="inner">
   <img class="logo" src="data:image/svg+xml;base64,${b64('public/brand/ubeenet-white.svg')}">
-  <h1>${name}</h1>
-  <p class="data">${date} · ${time}<br>${venue}, CDMX</p>
+  <h1><span style="font-weight:700">SAVE</span><span style="font-weight:300">THE</span><span style="font-weight:700">DATE</span></h1>
+  <p class="data"><b>${date}</b><br>${time} · ${venue}, CDMX</p>
 </div>
 </body></html>`;
 

@@ -10,12 +10,12 @@
     "check": "astro check",
     "sync:shared": "node scripts/sync-shared.mjs",
     "og-image": "node scripts/og-image.mjs",
-    "media": "sh hyperframes/bg-loop/export.sh",
     "functions:serve": "node scripts/sync-shared.mjs && supabase functions serve register --no-verify-jwt --env-file supabase/.env.local",
     "deploy:function": "node scripts/sync-shared.mjs && supabase functions deploy register --no-verify-jwt"
   },
   "dependencies": {
     "@fontsource-variable/hanken-grotesk": "^5.3.0",
+    "@fontsource-variable/roboto": "^5.3.0",
     "@supabase/supabase-js": "^2.118.0",
     "astro": "^5.18.2"
   },

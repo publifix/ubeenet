@@ -1,32 +1,51 @@
 ---
 import { event } from '../config/event';
-import BgVideo from './BgVideo.astro';
+import HeroShapes from './HeroShapes.astro';
+import Icon from './Icon.astro';
+import RegisterForm from './RegisterForm.astro';
 
+const h = event.hero;
+const v = event.venue;
 const [startLabel, endLabel] = event.timeRange.split(' a ');
 ---
 
 <section class="hero" aria-labelledby="hero-title">
-  <BgVideo />
-  <div class="container hero__inner">
-    <h1 class="display hero__title" id="hero-title">{event.hero.title}</h1>
-    <p class="lead hero__subtitle">{event.hero.subtitle}</p>
-    <dl class="hero__data data">
-      <div>
-        <dt>Fecha</dt>
-        <dd><time datetime={event.startLocalIso.slice(0, 10)}>{event.dateLong}</time></dd>
-      </div>
-      <div>
-        <dt>Horario</dt>
-        <dd>
-          <time datetime={event.startLocalIso}>{startLabel}</time> a <time datetime={event.endLocalIso}>{endLabel}</time>
-        </dd>
-      </div>
-      <div>
-        <dt>Sede</dt>
-        <dd><a href="#sede">{event.venue.name}, {event.venue.city}</a></dd>
-      </div>
-    </dl>
-    <a class="btn btn-primary hero__cta" href="#registro">{event.hero.cta}</a>
+  <div class="hero__bg" aria-hidden="true">
+    <HeroShapes class="hero__shapes hero__shapes--wide" stretch />
+    <HeroShapes class="hero__shapes hero__shapes--tall" />
+  </div>
+  <div class="container hero__grid">
+    <div class="hero__copy">
+      <h1 class="hero__title" id="hero-title">
+        {h.title.map((w) => <span style={`font-weight:${w.weight}`}>{w.text}</span>)}
+      </h1>
+      <p class="hero__subtitle">{h.subtitle}</p>
+      <ul class="hero__data" role="list">
+        <li>
+          <Icon name="calendar" />
+          <time datetime={event.startLocalIso.slice(0, 10)}>
+            <span class="hero__light">{h.day}</span>
+            <strong>{h.date}</strong>
+          </time>
+        </li>
+        <li>
+          <Icon name="clock" />
+          <strong>
+            <time datetime={event.startLocalIso}>{startLabel}</time> – <time datetime={event.endLocalIso}>{endLabel}</time>
+          </strong>
+        </li>
+        <li>
+          <Icon name="pin" />
+          <span>
+            <strong><a href="#sede">{v.name}</a></strong>
+            <span class="hero__address">{v.street}, {v.locality}, {v.postalCode}, {v.city}</span>
+          </span>
+        </li>
+      </ul>
+    </div>
+    <div class="hero__form">
+      <RegisterForm />
+    </div>
   </div>
 </section>
 
@@ -37,59 +56,123 @@ const [startLabel, endLabel] = event.timeRange.split(' a ');
     min-height: 100svh;
     display: flex;
     align-items: center;
-    padding-block: calc(80px + var(--s-6)) var(--s-12);
+    padding-block: calc(80px + var(--s-4)) var(--s-12);
+    background: var(--noche);
+    overflow: hidden;
   }
-  .hero__inner {
-    position: relative;
-    z-index: 1;
+
+  /* Formas de la invitación: a la derecha, enmarcando el formulario. */
+  .hero__bg {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    /* Las formas se funden con el bloque siguiente en vez de cortarse. */
+    -webkit-mask-image: linear-gradient(180deg, #000 calc(100% - 180px), transparent);
+    mask-image: linear-gradient(180deg, #000 calc(100% - 180px), transparent);
   }
+  .hero__shapes {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+  }
+  .hero__shapes--wide {
+    width: max(58vw, 640px);
+  }
+  .hero__shapes--tall {
+    display: none;
+  }
+
+  .hero__grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--s-3);
+    row-gap: var(--s-6);
+    align-items: center;
+  }
+  .hero__copy {
+    grid-column: 1 / span 6;
+  }
+  .hero__form {
+    grid-column: 8 / span 5;
+  }
+
+  /* Titular con la tipografía de la invitación: Roboto, SAVE y DATE en negrita, THE ligera. */
   .hero__title {
-    max-width: 10ch;
+    font-family: var(--font-titular);
+    font-size: clamp(4.5rem, 7.4vw + 0.5rem, 8.5rem);
+    line-height: 0.9;
+    letter-spacing: -0.01em;
+    text-wrap: initial;
+  }
+  .hero__title span {
+    display: block;
   }
   .hero__subtitle {
-    margin-top: var(--s-3);
+    margin-top: var(--s-4);
     max-width: 30ch;
+    font-family: var(--font-titular);
+    font-size: clamp(1.125rem, 0.7vw + 1rem, 1.5rem);
+    line-height: 1.35;
   }
+
   .hero__data {
-    margin-top: var(--s-6);
-    max-width: 30rem;
-    border-top: 1px solid var(--linea);
-  }
-  .hero__data > div {
     display: grid;
-    grid-template-columns: 5.5rem 1fr;
+    gap: var(--s-3);
+    list-style: none;
+    margin: var(--s-6) 0 0;
+    padding: 0;
+    font-family: var(--font-titular);
+  }
+  .hero__data li {
+    display: grid;
+    grid-template-columns: 32px 1fr;
     gap: var(--s-2);
-    align-items: baseline;
-    padding-block: 14px;
-    border-bottom: 1px solid var(--linea);
+    align-items: center;
   }
-  .hero__data dt {
-    font-size: var(--fs-small);
-    font-weight: 400;
-    color: var(--texto-suave);
+  .hero__data :global(svg) {
+    width: 30px;
+    height: 30px;
+    stroke-width: 1.5;
   }
-  .hero__data dd {
-    margin: 0;
+  .hero__data strong,
+  .hero__light {
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    line-height: 1.2;
+  }
+  .hero__data strong {
+    font-size: clamp(1.0625rem, 0.5vw + 0.95rem, 1.375rem);
+    font-weight: 700;
+  }
+  .hero__light {
+    font-size: clamp(1rem, 0.4vw + 0.9rem, 1.25rem);
+    font-weight: 300;
   }
   .hero__data a {
     color: inherit;
-    text-decoration-color: rgba(255, 255, 255, 0.4);
+    text-decoration-color: rgba(255, 255, 255, 0.35);
   }
   .hero__data a:hover {
     color: var(--texto);
     text-decoration-color: currentColor;
   }
-  .hero__cta {
-    margin-top: var(--s-6);
-    min-width: 13rem;
+  .hero__address {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.9375rem;
+    line-height: 1.4;
+    color: var(--texto-suave);
   }
 
-  /* Secuencia de carga: H1 → datos → botón (600 ms en total). */
+  /* Secuencia de carga: titular → datos → formulario (600 ms en total). */
   @media (prefers-reduced-motion: no-preference) {
     .hero__title,
     .hero__subtitle,
     .hero__data,
-    .hero__cta {
+    .hero__form {
       animation: rise 360ms var(--ease-out) both;
     }
     .hero__subtitle {
@@ -98,7 +181,7 @@ const [startLabel, endLabel] = event.timeRange.split(' a ');
     .hero__data {
       animation-delay: 120ms;
     }
-    .hero__cta {
+    .hero__form {
       animation-delay: 240ms;
     }
   }
@@ -109,20 +192,42 @@ const [startLabel, endLabel] = event.timeRange.split(' a ');
     }
   }
 
+  @media (max-width: 1023px) {
+    .hero {
+      min-height: auto;
+      align-items: flex-start;
+    }
+    .hero__copy,
+    .hero__form {
+      grid-column: 1 / -1;
+    }
+    .hero__form {
+      max-width: 36rem;
+    }
+    /* En vertical, las formas a proporción, como en la invitación. */
+    .hero__shapes--wide {
+      display: none;
+    }
+    .hero__shapes--tall {
+      display: block;
+      width: min(100%, 720px);
+      height: auto;
+      aspect-ratio: 724 / 1280;
+    }
+  }
   @media (max-width: 767px) {
     .hero {
-      align-items: flex-start;
       padding-block: calc(72px + var(--s-4)) var(--s-8);
+    }
+    .hero__shapes--tall {
+      width: 78%;
+    }
+    .hero__grid {
+      row-gap: var(--s-6);
     }
     .hero__data {
       margin-top: var(--s-4);
-    }
-    .hero__data > div {
-      grid-template-columns: 4.5rem 1fr;
-    }
-    .hero__cta {
-      width: 100%;
-      margin-top: var(--s-4);
+      gap: 20px;
     }
   }
 </style>

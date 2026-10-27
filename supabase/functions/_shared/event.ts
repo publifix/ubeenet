@@ -43,24 +43,20 @@ export const event = {
     note: 'Contaremos con servicio de valet parking.',
   },
   meta: {
-    title: 'Ubeenet Connect 2026 · Registro',
+    title: 'Save the date · Ubeenet · 26 de noviembre de 2026',
     description:
-      'Una noche con Ubeenet y sus partners para hablar de nube, redes y seguridad. 26 de noviembre de 2026, Hotel Campos Polanco, CDMX.',
+      'Una tarde para conectar, compartir ideas y explorar oportunidades juntos. Jueves 26 de noviembre de 2026, Hotel Campos Polanco, CDMX.',
   },
   hero: {
-    title: 'Ubeenet Connect 2026',
-    subtitle:
-      'Una noche para conectar con quienes construyen la nube, la red y la seguridad de las empresas en México.',
-    cta: 'Reservar lugar',
-  },
-  registerSection: {
-    title: 'Confirma tu asistencia',
-    text: 'El evento es sin costo y el cupo es limitado. Regístrate y te enviaremos la confirmación con el evento para tu calendario.',
-    points: [
-      'Sin costo, solo con registro',
-      'Confirmación inmediata por correo',
-      'Guarda la fecha en Google Calendar, Outlook o Apple',
+    // Texto de la invitación. Cada palabra va en su línea; el peso replica la invitación.
+    title: [
+      { text: 'SAVE', weight: 700 },
+      { text: 'THE', weight: 300 },
+      { text: 'DATE', weight: 700 },
     ],
+    subtitle: 'Una tarde para conectar, compartir ideas y explorar oportunidades juntos.',
+    day: 'Jueves',
+    date: '26 de noviembre',
   },
   form: {
     title: 'Reserva tu lugar',
@@ -108,7 +104,7 @@ export const event = {
       },
       {
         title: 'Conversaciones que no caben en una llamada',
-        text: 'Una noche con el equipo de Ubeenet, sus partners y otros líderes de TI.',
+        text: 'Una tarde con el equipo de Ubeenet, sus partners y otros líderes de TI.',
       },
     ],
   },
@@ -134,6 +130,7 @@ export const event = {
   },
   partners: {
     title: 'Partners',
+    // Sección oculta (src/components/Partners.astro no se usa en index) hasta confirmar participantes.
     // TODO: confirmar cuáles participan en el evento y reemplazar por logos monocromos.
     items: ['AWS', 'Microsoft Azure', 'Oracle', 'VMware', 'Cisco', 'Aviatrix', 'Palo Alto Networks', 'Veeam', 'ExaGrid', 'Pure Storage'],
   },
