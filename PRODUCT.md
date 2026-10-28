@@ -3,7 +3,7 @@
 > Inferido del brief `PROMPT_CLAUDE_CODE.md` (sin entrevista: el brief cubre estos puntos). Supuestos marcados.
 
 ## Qué es
-Landing de registro para **Ubeenet Connect 2026** (nombre provisional), evento presencial nocturno de Ubeenet S.A. de C.V. — MultiCloud Networking, Security and App Management — con sus partners (AWS, Azure, Oracle, VMware, Cisco, Aviatrix, Palo Alto Networks, Veeam, ExaGrid, Pure Storage).
+Landing de registro para el **evento de networking de Ubeenet** (sin nombre propio), evento presencial nocturno de Ubeenet S.A. de C.V. — MultiCloud Networking, Security and App Management — con sus partners (AWS, Azure, Oracle, VMware, Cisco, Aviatrix, Palo Alto Networks, Veeam, ExaGrid, Pure Storage).
 
 ## Audiencia
 Líderes y equipos de TI de empresas en México (CIO, gerentes de infraestructura, redes y seguridad) invitados por Ubeenet. Supuesto: llegan desde una invitación directa (correo, WhatsApp, LinkedIn), muchos en el teléfono.

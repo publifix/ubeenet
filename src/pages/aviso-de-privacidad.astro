@@ -6,7 +6,7 @@ import { event } from '../config/event';
 const o = event.organizer;
 ---
 
-<Base title={`Aviso de privacidad · ${event.name}`} description={`Aviso de privacidad del registro a ${event.name}.`} path="aviso-de-privacidad/">
+<Base title={`Aviso de privacidad · ${event.name}`} description={`Aviso de privacidad del registro a ${event.nameInSentence}.`} path="aviso-de-privacidad/">
   <Header onLanding={false} />
   <main class="container legal"><div class="legal__body">
     <h1 class="h2">Aviso de privacidad</h1>
@@ -23,7 +23,7 @@ const o = event.organizer;
 
     <h2 class="h3">Finalidad</h2>
     <p>
-      Gestionar tu registro a {event.name}, enviarte la confirmación y comunicaciones relacionadas con este evento.
+      Gestionar tu registro a {event.nameInSentence}, enviarte la confirmación y comunicaciones relacionadas con este evento.
       TODO: finalidades secundarias, si las hay, y el mecanismo para negarte a ellas.
     </p>
 

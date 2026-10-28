@@ -83,6 +83,9 @@ const button = (href: string, label: string) => `
     </tr>
   </table>`;
 
+const THANKS =
+  'Tu lugar está confirmado. Será un gusto recibirte en una tarde para compartir ideas, fortalecer relaciones y descubrir nuevas oportunidades de negocios con el equipo de Ubeenet.';
+
 /** siteUrl: URL pública del sitio, sin "/" final (p. ej. https://ubeenetevents.com.mx). */
 export function confirmationEmail(fullName: string, siteUrl: string) {
   const name = firstName(fullName);
@@ -90,12 +93,12 @@ export function confirmationEmail(fullName: string, siteUrl: string) {
   const privacy = `${siteUrl}/aviso-de-privacidad/`;
   const v = event.venue;
   const o = event.organizer;
-  const subject = `Tu lugar en ${event.name} está confirmado`;
+  const subject = `Gracias por registrarte, ${name}: tu lugar está confirmado`;
   const [start, end] = event.timeRange.split(' a ');
 
   const body = `
-    <h1 style="margin:0;font:700 26px/32px ${FONT};color:${C.tinta};">Hola ${esc(name)}, tu lugar está reservado.</h1>
-    <p style="margin:12px 0 0;font:400 16px/24px ${FONT};color:${C.suave};">${esc(event.hero.subtitle)}</p>
+    <h1 style="margin:0;font:700 26px/32px ${FONT};color:${C.tinta};">¡Gracias por registrarte, ${esc(name)}!</h1>
+    <p style="margin:12px 0 0;font:400 16px/24px ${FONT};color:${C.suave};">${esc(THANKS)}</p>
 
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:24px;border-top:1px solid ${C.linea};">
       ${dataRow('Fecha', esc(event.dateLong))}
@@ -127,7 +130,7 @@ export function confirmationEmail(fullName: string, siteUrl: string) {
     <p style="margin:20px 0 0;font:400 15px/22px ${FONT};color:${C.tinta};">Te esperamos,<br><strong>Equipo Ubeenet</strong></p>`;
 
   const footer = `
-    Recibes este correo porque te registraste en ${esc(event.name)}.<br>
+    Recibes este correo porque te registraste en ${esc(event.nameInSentence)}.<br>
     © 2026 ${esc(o.name)} · <a href="${privacy}" style="color:${C.pie};">Aviso de privacidad</a>`;
 
   const html = layout({
@@ -139,9 +142,9 @@ export function confirmationEmail(fullName: string, siteUrl: string) {
   });
 
   const text = [
-    `Hola ${name}, tu lugar está reservado.`,
+    `¡Gracias por registrarte, ${name}!`,
     '',
-    event.hero.subtitle,
+    THANKS,
     '',
     `Fecha: ${event.dateLong}`,
     `Horario: ${event.timeRange} (hora de la Ciudad de México)`,
@@ -210,7 +213,7 @@ export function notificationEmail(d: NotificationData, siteUrl: string) {
   });
 
   const text = [
-    `Nuevo registro en ${event.name}`,
+    `Nuevo registro en ${event.nameInSentence}`,
     '',
     `Nombre: ${d.fullName}`,
     `Correo: ${d.email}`,

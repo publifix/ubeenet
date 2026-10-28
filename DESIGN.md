@@ -1,4 +1,4 @@
-# Sistema de diseño — Ubeenet Connect 2026
+# Sistema de diseño — evento de networking Ubeenet
 
 Base: §3 de `PROMPT_CLAUDE_CODE.md`, **ajustado por el cliente (oct 2026) para empatar con ubeenet.com**: bloques de color con curva, líneas blancas finas, grotesca ligera en titulares grandes, botones píldora y formulario en panel blanco. Tokens en `src/styles/tokens.css`.
 

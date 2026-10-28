@@ -1,6 +1,6 @@
 # ubeenet
 
-Landing de registro de Ubeenet Connect 2026. Especificación: `PROMPT_CLAUDE_CODE.md` (fuente de verdad). Setup y comandos: `README.md`.
+Landing de registro del evento de networking de Ubeenet (no tiene nombre propio; no usar "Ubeenet Connect"). Especificación: `PROMPT_CLAUDE_CODE.md` (fuente de verdad). Setup y comandos: `README.md`.
 
 ## Publicación
 

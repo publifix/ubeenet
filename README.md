@@ -1,4 +1,4 @@
-# Ubeenet Connect 2026 · Landing de registro
+# Evento de networking Ubeenet · Landing de registro
 
 Landing de registro al evento de Ubeenet (jueves 26 de noviembre de 2026, 5:45 a 10:00 pm, Hotel Campos Polanco, CDMX).
 Especificación completa: [`PROMPT_CLAUDE_CODE.md`](PROMPT_CLAUDE_CODE.md).

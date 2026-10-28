@@ -1,12 +1,14 @@
 // ARCHIVO GENERADO por scripts/sync-shared.mjs — edita el original en src/.
 // ÚNICA fuente de nombre, fecha, sede y textos del evento.
-// TODO: nombre definitivo del evento y textos finales del cliente.
+// El evento no tiene nombre propio: es el evento de networking de Ubeenet.
 
 const venueAddress = 'Campos Elíseos 361, Polanco III Secc., Miguel Hidalgo, 11540, Ciudad de México';
 
 export const event = {
-  name: 'Ubeenet Connect 2026',
-  slug: 'ubeenet-connect-2026',
+  name: 'Evento de networking Ubeenet',
+  // Para usar a media frase: "te registraste en …".
+  nameInSentence: 'el evento de networking de Ubeenet',
+  slug: 'ubeenet-networking-2026',
   organizer: {
     name: 'Ubeenet S.A. de C.V.',
     shortName: 'Ubeenet',
@@ -133,11 +135,11 @@ export const event = {
   finalCta: { title: 'Nos vemos el 26 de noviembre', button: 'Reservar lugar' },
   footer: { credit: 'Desarrollado por Blanco Nuclear' },
   ics: {
-    uid: 'ubeenet-connect-2026@ubeenet.com',
-    prodId: '-//Ubeenet//Connect 2026//ES',
+    uid: 'ubeenet-networking-2026@ubeenet.com',
+    prodId: '-//Ubeenet//Networking 2026//ES',
     location: 'Hotel Campos Polanco, Campos Elíseos 361, Polanco III Secc., Miguel Hidalgo, 11540 CDMX',
-    description: 'Tu registro está confirmado. Dudas: sales@ubeenet.com',
-    filename: 'ubeenet-connect-2026.ics',
+    description: 'Tu registro está confirmado. Llega desde las 5:45 pm para tu registro de acceso. Dudas: sales@ubeenet.com · +52 55 3074 6052',
+    filename: 'ubeenet-networking-2026.ics',
   },
 } as const;
 
