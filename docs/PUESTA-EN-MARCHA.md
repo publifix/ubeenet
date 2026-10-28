@@ -130,7 +130,7 @@ Opcionales (ya tienen valor por defecto): `RESEND_FROM` (`Ubeenet Eventos <event
    - Aviso del nuevo registro en `labs.publifix@gmail.com` (en modo prueba) o en los tres correos del equipo.
    - Registro visible en https://ubeenetevents.com.mx/registros/ (inicia sesión con un usuario del paso 3.3).
 3. Registra el mismo correo otra vez: debe decir que ya tiene lugar reservado.
-4. Borra los registros de prueba antes de difundir: *Supabase → Table Editor → registrations*.
+4. Antes de difundir, deja la base en cero: pega `supabase/sql/limpieza-pruebas.sql` en *Supabase → SQL Editor* → **Run** (debe mostrar 0 y 0). Luego borra la variable `NOTIFY_EMAIL` y corre el workflow *Supabase (función de registro)* para que los avisos vuelvan a los tres correos.
 
 ## Recordatorio del día anterior
 
