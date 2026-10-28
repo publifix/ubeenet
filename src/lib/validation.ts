@@ -21,17 +21,17 @@ export interface RegistrationInput {
   email?: unknown;
   country_code?: unknown; // dígitos de la lada ("52") u otra lada libre
   phone?: unknown; // número nacional, con o sin espacios
-  consent?: unknown;
 }
 
 export interface RegistrationData {
   full_name: string;
   email: string;
   whatsapp: string; // E.164
+  // Consentimiento tácito: el aviso de privacidad está visible junto al botón de envío.
   consent: true;
 }
 
-export type FieldName = 'full_name' | 'email' | 'whatsapp' | 'consent';
+export type FieldName = 'full_name' | 'email' | 'whatsapp';
 export type FieldErrors = Partial<Record<FieldName, string>>;
 
 export interface ValidationMessages {
@@ -39,7 +39,6 @@ export interface ValidationMessages {
   email: string;
   whatsapp: string;
   whatsappOther: string;
-  consent: string;
 }
 
 const str = (v: unknown) => (typeof v === 'string' ? v : '');
@@ -92,7 +91,6 @@ export function validateRegistration(
       ? messages.whatsapp
       : messages.whatsappOther;
   }
-  if (input.consent !== true) fields.consent = messages.consent;
 
   if (Object.keys(fields).length > 0) return { ok: false, fields };
   return {

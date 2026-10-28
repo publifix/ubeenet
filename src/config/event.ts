@@ -64,9 +64,8 @@ export const event = {
     help: 'Te enviaremos la confirmación a tu correo.',
     labels: { name: 'Nombre completo', email: 'Correo electrónico', whatsapp: 'WhatsApp', countryCode: 'Lada' },
     placeholders: { name: 'Ana López Martínez', email: 'ana@empresa.com', whatsapp: '55 1234 5678' },
-    consentBefore: 'Acepto el',
-    consentLink: 'aviso de privacidad',
-    consentAfter: 'y que Ubeenet me contacte sobre este evento.',
+    privacyNote: 'Usaremos tus datos solo para este evento.',
+    privacyLink: 'Aviso de privacidad',
     submit: 'Reservar lugar',
     submitting: 'Reservando…',
     note: 'Cupo limitado. Evento sin costo, solo con registro.',
@@ -81,7 +80,6 @@ export const event = {
       email: 'Revisa el correo; parece incompleto.',
       whatsapp: 'El WhatsApp debe tener 10 dígitos.',
       whatsappOther: 'Revisa el número; incluye lada y número completo.',
-      consent: 'Para continuar, acepta el aviso de privacidad.',
       general: 'No pudimos guardar tu registro. Revisa tu conexión e inténtalo de nuevo.',
       captcha: 'Confirma que no eres un robot e inténtalo de nuevo.',
     },
@@ -129,6 +127,49 @@ export const event = {
       { q: '¿Habrá alimentos y bebidas?', a: 'Sí. Durante el cóctel habrá canapés, vinos y cervezas.' },
       { q: '¿Hay estacionamiento?', a: 'Sí, el hotel cuenta con valet parking.' },
       { q: '¿A quién contacto si tengo dudas?', a: 'Escríbenos a sales@ubeenet.com o al +52 55 3074 6052.' },
+    ],
+  },
+  privacy: {
+    title: 'Aviso de privacidad',
+    updated: '28 de octubre de 2026',
+    intro:
+      'Ubeenet S.A. de C.V. (“Ubeenet”) es responsable del tratamiento de los datos personales que nos proporcionas al registrarte en el evento de networking de Ubeenet, conforme a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares.',
+    sections: [
+      {
+        title: 'Datos que recabamos',
+        text: [
+          'Nombre completo, correo electrónico y número de WhatsApp. No solicitamos datos personales sensibles.',
+          'De forma técnica también registramos la página desde la que llegaste y, si existen, los parámetros de la campaña (por ejemplo, el anuncio o correo que te trajo al sitio).',
+        ],
+      },
+      {
+        title: 'Para qué usamos tus datos',
+        text: [
+          'Únicamente para registrar tu asistencia, enviarte la confirmación, el recordatorio y la información logística del evento, y para identificarte en el acceso el día del evento.',
+          'No usamos tus datos para otros fines, no los vendemos y no te suscribimos a listas de correo.',
+        ],
+      },
+      {
+        title: 'Con quién los compartimos',
+        text: [
+          'No transferimos tus datos a terceros. Solo los tratan, por cuenta de Ubeenet, el equipo organizador del evento y los proveedores tecnológicos que alojan la base de registros y envían los correos, exclusivamente para las finalidades de este aviso.',
+        ],
+      },
+      {
+        title: 'Cuánto tiempo los conservamos',
+        text: ['Solo el tiempo necesario para organizar el evento y darle seguimiento; después los eliminamos.'],
+      },
+      {
+        title: 'Tus derechos',
+        text: [
+          'Puedes acceder a tus datos, corregirlos, pedir que los eliminemos, oponerte a su uso o revocar tu consentimiento en cualquier momento. Escríbenos a sales@ubeenet.com con el asunto “Datos personales · evento de networking”, indicando tu nombre, el correo con el que te registraste y lo que solicitas. Te responderemos por el mismo medio dentro de los plazos que establece la ley.',
+          'También puedes solicitar en ese correo el aviso de privacidad integral de Ubeenet.',
+        ],
+      },
+      {
+        title: 'Cambios a este aviso',
+        text: ['Cualquier cambio se publicará en esta misma página.'],
+      },
     ],
   },
   finalCta: { title: 'Nos vemos el 26 de noviembre', button: 'Reservar lugar' },

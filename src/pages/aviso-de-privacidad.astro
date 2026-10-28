@@ -4,45 +4,33 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { event } from '../config/event';
 const o = event.organizer;
+const p = event.privacy;
+// Convierte el correo de contacto del texto en un enlace mailto.
+const linkEmail = (t: string) =>
+  t.replace(o.email, `<a href="mailto:${o.email}">${o.email}</a>`);
 ---
 
-<Base title={`Aviso de privacidad · ${event.name}`} description={`Aviso de privacidad del registro a ${event.nameInSentence}.`} path="aviso-de-privacidad/">
+<Base title={`${p.title} · ${event.name}`} description={`${p.title} del registro a ${event.nameInSentence}.`} path="aviso-de-privacidad/">
   <Header onLanding={false} />
   <main class="container legal"><div class="legal__body">
-    <h1 class="h2">Aviso de privacidad</h1>
-    <p class="legal__todo">TODO: texto legal del cliente. Este contenido es provisional y debe ser revisado por Ubeenet.</p>
+    <h1 class="h2">{p.title}</h1>
+    <p>{p.intro}</p>
 
-    <h2 class="h3">Responsable</h2>
-    <p>
-      {o.name} (“Ubeenet”), con domicilio en TODO: domicilio fiscal, es responsable del tratamiento de tus datos personales,
-      conforme a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP).
-    </p>
-
-    <h2 class="h3">Datos que recabamos</h2>
-    <p>Nombre completo, correo electrónico y número de WhatsApp. También registramos, de forma técnica, la página de origen y los parámetros de campaña de la visita.</p>
-
-    <h2 class="h3">Finalidad</h2>
-    <p>
-      Gestionar tu registro a {event.nameInSentence}, enviarte la confirmación y comunicaciones relacionadas con este evento.
-      TODO: finalidades secundarias, si las hay, y el mecanismo para negarte a ellas.
-    </p>
-
-    <h2 class="h3">Transferencias</h2>
-    <p>TODO: indicar si los datos se comparten con terceros (por ejemplo, proveedores de hospedaje y envío de correo) y con qué fin.</p>
-
-    <h2 class="h3">Derechos ARCO</h2>
-    <p>
-      Puedes acceder, rectificar, cancelar u oponerte al tratamiento de tus datos, así como revocar tu consentimiento,
-      escribiendo a <a href={`mailto:${o.email}`}>{o.email}</a>. TODO: procedimiento, plazos y requisitos de la solicitud.
-    </p>
+    {
+      p.sections.map((sec) => (
+        <>
+          <h2 class="h3">{sec.title}</h2>
+          {sec.text.map((t) => <p set:html={linkEmail(t)} />)}
+        </>
+      ))
+    }
 
     <h2 class="h3">Contacto</h2>
     <p>
       <a href={`mailto:${o.email}`}>{o.email}</a> · <a href={o.phoneHref}>{o.phone}</a>
     </p>
 
-    <h2 class="h3">Cambios a este aviso</h2>
-    <p>Cualquier cambio se publicará en esta misma página. Última actualización: TODO: fecha.</p>
+    <p class="legal__updated">Última actualización: {p.updated}.</p>
   </div></main>
   <Footer />
 </Base>
@@ -61,10 +49,8 @@ const o = event.organizer;
     margin-top: 12px;
     color: var(--texto-suave);
   }
-  .legal__todo {
-    padding: 12px var(--s-2);
-    border: 1px dashed rgba(238, 241, 246, 0.35);
-    border-radius: var(--r-control);
+  .legal__updated {
+    margin-top: var(--s-6);
     font-size: var(--fs-small);
   }
 </style>

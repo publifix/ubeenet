@@ -110,17 +110,6 @@ const config = {
         <p class="field__error" id="whatsapp-error"></p>
       </fieldset>
 
-      <div class="field field--check" data-field="consent">
-        <div class="check">
-          <input id="consent" name="consent" type="checkbox" required aria-describedby="consent-error" />
-          <label for="consent">
-            {f.consentBefore} <a href={withBase('aviso-de-privacidad/')} target="_blank" rel="noopener">{f.consentLink}</a>
-            {f.consentAfter}
-          </label>
-        </div>
-        <p class="field__error" id="consent-error"></p>
-      </div>
-
       <div class="hp" aria-hidden="true">
         <label for="company_website">No llenes este campo</label>
         <input id="company_website" name="company_website" type="text" tabindex="-1" autocomplete="off" />
@@ -130,6 +119,9 @@ const config = {
 
       <button class="btn btn-dark form__submit" type="submit">{f.submit}</button>
       <p class="form__note">{f.note}</p>
+      <p class="form__note">
+        {f.privacyNote} <a href={withBase('aviso-de-privacidad/')} target="_blank" rel="noopener">{f.privacyLink}</a>
+      </p>
       <p class="form__status" role="status" aria-live="polite"></p>
     </form>
   </div>
@@ -307,56 +299,6 @@ const config = {
     display: none;
   }
 
-  .check {
-    display: grid;
-    grid-template-columns: 22px 1fr;
-    gap: 12px;
-    align-items: start;
-  }
-  .check input {
-    appearance: none;
-    width: 22px;
-    height: 22px;
-    margin: 1px 0 0;
-    border: 1px solid #8a909b;
-    border-radius: 6px;
-    background: var(--blanco);
-    display: grid;
-    place-content: center;
-    cursor: pointer;
-    transition: background-color var(--t-fast) ease, border-color var(--t-fast) ease;
-  }
-  .check input::before {
-    content: '';
-    width: 12px;
-    height: 12px;
-    clip-path: polygon(14% 52%, 0 66%, 38% 100%, 100% 22%, 86% 8%, 38% 72%);
-    background: var(--blanco);
-    transform: scale(0);
-    transition: transform var(--t-fast) ease;
-  }
-  .check input:checked {
-    background: var(--noche);
-    border-color: var(--noche);
-  }
-  .check input:checked::before {
-    transform: scale(1);
-  }
-  .check input:focus-visible {
-    outline: 2px solid var(--marino);
-    outline-offset: 3px;
-  }
-  .check label {
-    font-size: 0.9375rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: var(--tinta-suave);
-    cursor: pointer;
-  }
-  .field--check .field__error {
-    padding-left: 34px;
-  }
-
   .hp {
     position: absolute;
     left: -10000px;
@@ -374,6 +316,11 @@ const config = {
     font-size: var(--fs-small);
     line-height: 1.5;
     color: var(--tinta-suave);
+  }
+  .form__note a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
   }
   .form__status {
     font-size: 0.9375rem;
@@ -449,7 +396,7 @@ const config = {
   import { validateRegistration, validateName, validateEmail, toE164, formatNational, onlyDigits } from '../lib/validation';
   import { buildIcs } from '../lib/ics';
 
-  type FieldName = 'full_name' | 'email' | 'whatsapp' | 'consent';
+  type FieldName = 'full_name' | 'email' | 'whatsapp';
 
   const root = document.querySelector<HTMLElement>('[data-register]');
   if (root) init(root);
@@ -466,7 +413,6 @@ const config = {
     const otherWrap = form.querySelector<HTMLElement>('.phone__other')!;
     const otherCode = form.querySelector<HTMLInputElement>('#other_code')!;
     const phone = form.querySelector<HTMLInputElement>('#phone')!;
-    const consent = form.querySelector<HTMLInputElement>('#consent')!;
     const honeypot = form.querySelector<HTMLInputElement>('#company_website')!;
 
     if (new URLSearchParams(location.search).has('setup')) {
@@ -477,7 +423,6 @@ const config = {
       full_name: [name],
       email: [email],
       whatsapp: [phone, otherCode],
-      consent: [consent],
     };
 
     const countryCode = () => (cc.value === 'other' ? onlyDigits(otherCode.value) : cc.value);
@@ -496,11 +441,10 @@ const config = {
       if (field === 'full_name') ok = validateName(name.value);
       if (field === 'email') ok = validateEmail(email.value);
       if (field === 'whatsapp') ok = toE164(countryCode(), phone.value) !== null;
-      if (field === 'consent') ok = consent.checked;
       if (ok) setError(field, '');
       else {
         const result = validateRegistration(
-          { full_name: name.value, email: email.value, country_code: countryCode(), phone: phone.value, consent: consent.checked },
+          { full_name: name.value, email: email.value, country_code: countryCode(), phone: phone.value },
           msg,
         );
         setError(field, (!result.ok && result.fields[field]) || '');
@@ -523,7 +467,6 @@ const config = {
         if (input.getAttribute('aria-invalid') === 'true') check(field);
       });
     }
-    consent.addEventListener('change', () => check('consent'));
 
     cc.addEventListener('change', () => {
       const other = cc.value === 'other';
@@ -600,7 +543,7 @@ const config = {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       setStatus('');
-      const fields: FieldName[] = ['full_name', 'email', 'whatsapp', 'consent'];
+      const fields: FieldName[] = ['full_name', 'email', 'whatsapp'];
       const invalid = fields.filter((field) => !check(field));
       if (invalid.length) {
         setStatus(msg.fixFields);
@@ -615,7 +558,8 @@ const config = {
         email: email.value,
         country_code: countryCode(),
         phone: phone.value,
-        consent: consent.checked,
+        // El servidor registra consent = true; se envía también por compatibilidad.
+        consent: true,
         company_website: honeypot.value,
         utm_source: params.get('utm_source'),
         utm_medium: params.get('utm_medium'),
