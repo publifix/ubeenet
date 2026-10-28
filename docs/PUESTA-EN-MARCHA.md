@@ -108,7 +108,9 @@ Después: *Actions → Deploy to GitHub Pages → Run workflow*. El sitio queda 
 | `PUBLIC_SUPABASE_ANON_KEY` | la clave pública del paso 3.4 |
 
 Opcionales (ya tienen valor por defecto): `RESEND_FROM` (`Ubeenet Eventos <eventos@ubeenetevents.com.mx>`),
-`REPLY_TO` (`sales@ubeenet.com`), `NOTIFY_EMAIL` (`elia@blanconuclear.com.mx`).
+`REPLY_TO` (`sales@ubeenet.com`), `NOTIFY_EMAIL` (por defecto `elia@blanconuclear.com.mx,labs.publifix@gmail.com,mirna@blanconuclear.com.mx`).
+
+**Modo prueba:** crea la variable `NOTIFY_EMAIL` = `labs.publifix@gmail.com` y corre *Actions → Supabase (función de registro) → Run workflow*. Así los avisos solo llegan a labs. Al terminar las pruebas borra la variable y vuelve a correr el workflow: los avisos regresan a los tres correos.
 
 ---
 
@@ -125,7 +127,7 @@ Opcionales (ya tienen valor por defecto): `RESEND_FROM` (`Ubeenet Eventos <event
 2. Verifica:
    - Mensaje "Tu lugar está reservado" en la página.
    - Correo de confirmación con el archivo `.ics` (revisa también spam).
-   - Aviso del registro en `elia@blanconuclear.com.mx`.
+   - Aviso del nuevo registro en `labs.publifix@gmail.com` (en modo prueba) o en los tres correos del equipo.
    - Registro visible en https://ubeenetevents.com.mx/registros/ (inicia sesión con un usuario del paso 3.3).
 3. Registra el mismo correo otra vez: debe decir que ya tiene lugar reservado.
 4. Borra los registros de prueba antes de difundir: *Supabase → Table Editor → registrations*.

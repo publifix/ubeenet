@@ -3,12 +3,12 @@
 // Secrets: RESEND_API_KEY, RESEND_FROM, REPLY_TO, ALLOWED_ORIGINS, SITE_PUBLIC_URL,
 //          TURNSTILE_SECRET (opcional), NOTIFY_EMAIL (opcional, varios separados por coma).
 // Los avisos internos de cada registro van a NOTIFY_EMAIL o, si no existe,
-// a DEFAULT_NOTIFY_EMAIL (indicación del cliente).
+// a DEFAULT_NOTIFY_EMAILS (los tres usuarios del panel, indicación del cliente).
 import { createClient } from 'npm:@supabase/supabase-js@2';
 import { event } from '../_shared/event.ts';
 import { buildIcs } from '../_shared/ics.ts';
 import { validateRegistration } from '../_shared/validation.ts';
-import { confirmationEmail } from './email.ts';
+import { confirmationEmail, notificationEmail } from './email.ts';
 
 const env = (k: string) => Deno.env.get(k)?.trim() || '';
 
@@ -16,7 +16,7 @@ const ALLOWED_ORIGINS = env('ALLOWED_ORIGINS')
   .split(',')
   .map((o) => o.trim().replace(/\/$/, ''))
   .filter(Boolean);
-const DEFAULT_NOTIFY_EMAIL = 'elia@blanconuclear.com.mx';
+const DEFAULT_NOTIFY_EMAILS = 'elia@blanconuclear.com.mx,labs.publifix@gmail.com,mirna@blanconuclear.com.mx';
 const RATE_LIMIT = 5;
 const RATE_WINDOW_MIN = 10;
 
@@ -166,7 +166,7 @@ Deno.serve(async (req) => {
   }
 
   // Correo de confirmación con .ics adjunto. Si falla, el registro igual es válido.
-  const siteUrl = (env('SITE_PUBLIC_URL') || 'https://publifix.github.io/ubeenet').replace(/\/$/, '');
+  const siteUrl = (env('SITE_PUBLIC_URL') || 'https://ubeenetevents.com.mx').replace(/\/$/, '');
   const mail = confirmationEmail(data.full_name, siteUrl);
   const sent = await sendEmail({
     to: [data.email],
@@ -179,23 +179,21 @@ Deno.serve(async (req) => {
   await supabase.from('registrations').update({ email_status: sent ? 'sent' : 'failed' }).eq('id', inserted.id);
 
   // Aviso interno de cada registro (con el estado del correo de confirmación).
-  const notify = (env('NOTIFY_EMAIL') || DEFAULT_NOTIFY_EMAIL).split(',').map((e) => e.trim()).filter(Boolean);
-  const when = new Intl.DateTimeFormat('es-MX', { timeZone: event.timeZone, dateStyle: 'medium', timeStyle: 'short' }).format(new Date());
-  await sendEmail({
-    to: notify,
-    reply_to: data.email,
-    subject: `Nuevo registro · ${event.name}: ${data.full_name}`,
-    text: [
-      `Nuevo registro en ${event.name}`,
-      '',
-      `Nombre: ${data.full_name}`,
-      `Correo: ${data.email}`,
-      `WhatsApp: ${data.whatsapp} (https://wa.me/${data.whatsapp.slice(1)})`,
-      `Fecha de registro: ${when} (CDMX)`,
-      `Correo de confirmación: ${sent ? 'enviado' : 'FALLÓ, contactar manualmente'}`,
-      clip(body.utm_source) ? `Campaña: ${clip(body.utm_source)} / ${clip(body.utm_medium) ?? '-'} / ${clip(body.utm_campaign) ?? '-'}` : '',
-    ].filter(Boolean).join('\n'),
-  });
+  const notify = (env('NOTIFY_EMAIL') || DEFAULT_NOTIFY_EMAILS).split(',').map((e) => e.trim()).filter(Boolean);
+  const registeredAt = new Intl.DateTimeFormat('es-MX', { timeZone: event.timeZone, dateStyle: 'long', timeStyle: 'short' }).format(new Date());
+  const utm = [clip(body.utm_source), clip(body.utm_medium), clip(body.utm_campaign)];
+  const notice = notificationEmail(
+    {
+      fullName: data.full_name,
+      email: data.email,
+      whatsapp: data.whatsapp,
+      registeredAt,
+      confirmationSent: sent,
+      campaign: utm[0] ? utm.map((u) => u ?? '-').join(' / ') : null,
+    },
+    siteUrl,
+  );
+  await sendEmail({ to: notify, reply_to: data.email, subject: notice.subject, html: notice.html, text: notice.text });
 
   return json({ ok: true }, 201, origin);
 });

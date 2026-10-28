@@ -3,7 +3,7 @@
 Landing de registro al evento de Ubeenet (jueves 26 de noviembre de 2026, 5:45 a 10:00 pm, Hotel Campos Polanco, CDMX).
 Especificación completa: [`PROMPT_CLAUDE_CODE.md`](PROMPT_CLAUDE_CODE.md).
 
-**Sitio publicado:** https://publifix.github.io/ubeenet/
+**Sitio publicado:** https://ubeenetevents.com.mx
 
 | Capa | Herramienta |
 |---|---|
@@ -77,7 +77,7 @@ Luego en `.env` del sitio: `PUBLIC_REGISTER_ENDPOINT=http://127.0.0.1:54321/func
 - [ ] 2. Crear proyecto en Supabase → `supabase db push` (o pegar `supabase/migrations/0001_registrations.sql` en el SQL Editor) → `insert into public.admins (email) values ('…');` con los correos de administradores.
 - [ ] 3. Supabase Auth: desactivar **Allow new users to sign up** y crear a mano los usuarios administradores (Authentication → Users → Add user, con contraseña).
 - [ ] 4. Resend: crear cuenta → verificar dominio de envío (idealmente `ubeenet.com`, requiere DNS del cliente; mientras tanto un subdominio de Publifix) → crear API key.
-- [ ] 5. Secrets de la función (`supabase/.env.example`): `RESEND_API_KEY`, `RESEND_FROM`, `ALLOWED_ORIGINS` (incluye `https://publifix.github.io` y `http://localhost:4321`), `SITE_PUBLIC_URL`, `NOTIFY_EMAIL=elia@blanconuclear.com.mx` (aviso interno de cada registro; si falta, la función usa ese correo por defecto) y opcional `TURNSTILE_SECRET`. Desplegar: `npm run deploy:function`.
+- [ ] 5. Secrets de la función (`supabase/.env.example`): `RESEND_API_KEY`, `RESEND_FROM`, `ALLOWED_ORIGINS` (incluye `https://publifix.github.io` y `http://localhost:4321`), `SITE_PUBLIC_URL`, `NOTIFY_EMAIL` (aviso interno de cada registro, lista separada por comas; si falta, la función avisa a elia@, labs.publifix@ y mirna@) y opcional `TURNSTILE_SECRET`. Desplegar: `npm run deploy:function`.
 - [ ] 6. (Opcional) Cloudflare Turnstile: crear sitio (dominio `publifix.github.io`) → `PUBLIC_TURNSTILE_SITE_KEY` en GitHub y `TURNSTILE_SECRET` en Supabase.
 - [ ] 7. Variables del repo en GitHub (Settings → Secrets and variables → Actions → **Variables**): `PUBLIC_REGISTER_ENDPOINT` (`https://<ref>.supabase.co/functions/v1/register`), `PUBLIC_SUPABASE_URL`, `PUBLIC_SUPABASE_ANON_KEY`, opcional `PUBLIC_TURNSTILE_SITE_KEY`. Luego push a `main` o *Run workflow*.
 - [ ] 8. Logos: hoy se usan `public/brand/ubeenet-white.svg` y `ubeenet-color.svg` (vectorizados desde `UBEE.ALTA.png`) y `ubeenet-white.png` para el correo. Reemplazar por los SVG oficiales si existen. Textos definitivos en `src/config/event.ts`.

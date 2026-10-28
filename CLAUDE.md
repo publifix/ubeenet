@@ -15,7 +15,8 @@ Landing de registro de Ubeenet Connect 2026. Especificación: `PROMPT_CLAUDE_COD
 - `src/lib/validation.ts`, `src/lib/ics.ts` y `src/config/event.ts` se copian a `supabase/functions/_shared/` (`npm run sync:shared`); no editar las copias.
 - Estilo: empatar con ubeenet.com (bloques oscuro/claro con curva, líneas blancas, grotesca ligera, botones píldora, formulario en panel blanco) y con la invitación en el hero. Ver `DESIGN.md`. El amarillo #CDA41B no se usa.
 - Fecha y horario (los de la invitación): jueves 26 de noviembre de 2026, 5:45 pm a 10:00 pm (CDMX). El cliente no quiere agenda en la landing.
-- Avisos y copias de cada registro: **elia@blanconuclear.com.mx** (secret `NOTIFY_EMAIL`; la Edge Function lo usa por defecto si el secret no existe).
+- Avisos de cada registro (correo HTML con los datos): **elia@blanconuclear.com.mx, labs.publifix@gmail.com, mirna@blanconuclear.com.mx** (variable del repo `NOTIFY_EMAIL`, lista separada por comas; si no existe, se usan esos tres). Para pruebas: variable `NOTIFY_EMAIL=labs.publifix@gmail.com` y correr el workflow de Supabase; al terminar, borrarla y volver a correrlo.
+- Plantillas de correo: `supabase/functions/register/email.ts` (confirmación al invitado + aviso interno). Encabezado `public/brand/email-header.jpg`, se regenera con `node scripts/email-assets.mjs`.
 - Hero = invitación "Save the date" del cliente: titular "Conectemos hoy. / Creemos nuevas oportunidades juntos." en Roboto (700/300), subtítulo del cliente y formas del fondo redibujadas en vector (`src/components/HeroShapes.astro`, colores exactos de la invitación). Sin video ni animación de fondo. El formulario va en el hero (desktop a la derecha, móvil debajo de los datos).
 - Sección Partners oculta hasta confirmar participantes (`Partners.astro` existe, no se usa en `index.astro`).
 - Diseño: `DESIGN.md`. Producto: `PRODUCT.md`.
