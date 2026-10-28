@@ -12,3 +12,7 @@ major_version = 15
 [functions.register]
 # Endpoint público: lo protegen la validación, el honeypot, Turnstile y el rate limit.
 verify_jwt = false
+
+[functions.reminder]
+# Protegida por la cabecera x-reminder-key (secret REMINDER_KEY).
+verify_jwt = false

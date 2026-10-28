@@ -9,6 +9,7 @@ import { event } from '../_shared/event.ts';
 import { buildIcs } from '../_shared/ics.ts';
 import { validateRegistration } from '../_shared/validation.ts';
 import { confirmationEmail, notificationEmail } from './email.ts';
+import { sendEmail } from './resend.ts';
 
 const env = (k: string) => Deno.env.get(k)?.trim() || '';
 
@@ -92,26 +93,6 @@ function toBase64(text: string): string {
   let bin = '';
   for (const b of bytes) bin += String.fromCharCode(b);
   return btoa(bin);
-}
-
-async function sendEmail(payload: Record<string, unknown>): Promise<boolean> {
-  const key = env('RESEND_API_KEY');
-  if (!key) {
-    console.error('RESEND_API_KEY no configurada');
-    return false;
-  }
-  try {
-    const res = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ from: env('RESEND_FROM') || 'Ubeenet Eventos <onboarding@resend.dev>', ...payload }),
-    });
-    if (!res.ok) console.error('resend', res.status, await res.text());
-    return res.ok;
-  } catch (err) {
-    console.error('resend', err);
-    return false;
-  }
 }
 
 Deno.serve(async (req) => {

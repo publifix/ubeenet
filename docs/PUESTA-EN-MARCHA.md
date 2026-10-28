@@ -132,6 +132,13 @@ Opcionales (ya tienen valor por defecto): `RESEND_FROM` (`Ubeenet Eventos <event
 3. Registra el mismo correo otra vez: debe decir que ya tiene lugar reservado.
 4. Borra los registros de prueba antes de difundir: *Supabase → Table Editor → registrations*.
 
+## Recordatorio del día anterior
+
+- Se envía solo el **miércoles 25 de noviembre, ~4:00 pm CDMX**, a todos los registrados (workflow *Recordatorio (día antes del evento)*).
+- Para ver una muestra: *Actions → Recordatorio (día antes del evento) → Run workflow* con `mode = test`. Llega a `labs.publifix@gmail.com` con asunto "[Prueba] …".
+- `mode = all` lo manda a todos; solo funciona en las 48 h previas al evento salvo que marques `force`. Repetirlo el mismo día no duplica correos.
+- Al terminar, el equipo (`NOTIFY_EMAIL`) recibe un resumen "Recordatorio enviado · N de M".
+
 ## Si algo falla
 - **El formulario dice "No pudimos guardar tu registro"**: revisa que el workflow de Supabase esté en verde y que `PUBLIC_REGISTER_ENDPOINT` sea exacto.
 - **No llega el correo**: Resend → *Emails* muestra cada envío y su error; el dominio debe estar *Verified*.

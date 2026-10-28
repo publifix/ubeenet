@@ -168,6 +168,79 @@ export function confirmationEmail(fullName: string, siteUrl: string) {
   return { subject, html, text };
 }
 
+/** Recordatorio que se envía la tarde anterior al evento (función `reminder`). */
+export function reminderEmail(fullName: string, siteUrl: string) {
+  const name = firstName(fullName);
+  const privacy = `${siteUrl}/aviso-de-privacidad/`;
+  const v = event.venue;
+  const o = event.organizer;
+  const subject = `Mañana nos vemos, ${name} · ${v.name}, ${event.startTime}`;
+  const [start, end] = event.timeRange.split(' a ');
+  const intro = `Te esperamos mañana en ${event.nameInSentence}. Aquí tienes lo necesario para llegar.`;
+
+  const body = `
+    <h1 style="margin:0;font:700 26px/32px ${FONT};color:${C.tinta};">¡Mañana nos vemos, ${esc(name)}!</h1>
+    <p style="margin:12px 0 0;font:400 16px/24px ${FONT};color:${C.suave};">${esc(intro)}</p>
+
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:24px;border-top:1px solid ${C.linea};">
+      ${dataRow('Fecha', `Mañana, ${esc(event.dateLong.charAt(0).toLowerCase() + event.dateLong.slice(1))}`)}
+      ${dataRow('Horario', `${esc(start)} a ${esc(end)} <span style="font-weight:400;color:${C.suave};">(hora de la Ciudad de México)</span>`)}
+      ${dataRow('Sede', `${esc(v.name)}<br><span style="font-weight:400;color:${C.suave};">${esc(v.address)}</span>`, true)}
+    </table>
+
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin-top:24px;">
+      <tr>
+        <td style="padding:0 12px 12px 0;">${button(v.mapsUrl, 'Abrir en Google Maps')}</td>
+        <td style="padding:0 0 12px;"><a href="${v.wazeUrl}" style="font:700 15px/20px ${FONT};color:${C.enlace};">Abrir en Waze</a></td>
+      </tr>
+    </table>
+
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:16px;">
+      <tr>
+        <td style="padding:16px 18px;background:#F2F4F7;border-radius:12px;font:400 15px/22px ${FONT};color:${C.tinta};">
+          <strong>Llega desde las ${esc(event.startTime)}</strong> y menciona tu nombre en el registro de acceso.<br>
+          <span style="color:${C.suave};">${esc(v.note)} Código de vestimenta: business casual.</span>
+        </td>
+      </tr>
+    </table>
+
+    <p style="margin:28px 0 0;font:400 15px/22px ${FONT};color:${C.suave};">
+      Si ya no puedes asistir, responde a este correo para avisarnos.
+      ¿Dudas? <a href="mailto:${o.email}" style="color:${C.enlace};">${o.email}</a>
+      · <a href="${o.phoneHref}" style="color:${C.enlace};">${o.phone}</a>.
+    </p>
+    <p style="margin:20px 0 0;font:400 15px/22px ${FONT};color:${C.tinta};">Hasta mañana,<br><strong>Equipo Ubeenet</strong></p>`;
+
+  const footer = `
+    Recibes este correo porque te registraste en ${esc(event.nameInSentence)}.<br>
+    © 2026 ${esc(o.name)} · <a href="${privacy}" style="color:${C.pie};">Aviso de privacidad</a>`;
+
+  const html = layout({ title: subject, preheader: `Mañana · ${event.timeRange} · ${v.name}`, siteUrl, body, footer });
+
+  const text = [
+    `¡Mañana nos vemos, ${name}!`,
+    '',
+    intro,
+    '',
+    `Fecha: mañana, ${event.dateLong.charAt(0).toLowerCase() + event.dateLong.slice(1)}`,
+    `Horario: ${event.timeRange} (hora de la Ciudad de México)`,
+    `Sede: ${v.name}, ${v.address}`,
+    `Google Maps: ${v.mapsUrl}`,
+    `Waze: ${v.wazeUrl}`,
+    '',
+    `Llega desde las ${event.startTime} y menciona tu nombre en el registro de acceso. ${v.note} Código de vestimenta: business casual.`,
+    '',
+    `Si ya no puedes asistir, responde a este correo para avisarnos. ¿Dudas? ${o.email} · ${o.phone}`,
+    '',
+    'Hasta mañana,',
+    'Equipo Ubeenet',
+    '',
+    `© 2026 ${o.name} · Aviso de privacidad: ${privacy}`,
+  ].join('\n');
+
+  return { subject, html, text };
+}
+
 export interface NotificationData {
   fullName: string;
   email: string;

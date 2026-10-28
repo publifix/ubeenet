@@ -1,4 +1,4 @@
-# Despliega la Edge Function `register` y sus secrets en Supabase usando la API
+# Despliega las Edge Functions `register` y `reminder` y sus secrets en Supabase usando la API
 # (sin conectar Supabase con GitHub). Las tablas se crean una sola vez pegando
 # supabase/migrations/0001_registrations.sql en el SQL Editor de Supabase.
 #
@@ -68,7 +68,10 @@ jobs:
           SITE_PUBLIC_URL: ${{ vars.SITE_PUBLIC_URL || 'https://ubeenetevents.com.mx' }}
           NOTIFY_EMAIL: ${{ vars.NOTIFY_EMAIL || 'elia@blanconuclear.com.mx,labs.publifix@gmail.com,mirna@blanconuclear.com.mx' }}
         run: |
+          # Clave de la función reminder: derivada del token, reminder.yml la calcula igual.
+          REMINDER_KEY=$(printf 'ubeenet-reminder:%s' "$SUPABASE_ACCESS_TOKEN" | sha256sum | cut -d' ' -f1)
           args=(
+            "REMINDER_KEY=$REMINDER_KEY"
             "RESEND_FROM=$RESEND_FROM"
             "REPLY_TO=$REPLY_TO"
             "ALLOWED_ORIGINS=$ALLOWED_ORIGINS"
@@ -80,8 +83,10 @@ jobs:
           supabase secrets set --project-ref "$PROJECT_REF" "${args[@]}"
 
       - if: steps.config.outputs.ready == 'true'
-        name: Deploy register function
-        run: supabase functions deploy register --project-ref "$PROJECT_REF" --no-verify-jwt
+        name: Deploy functions
+        run: |
+          supabase functions deploy register --project-ref "$PROJECT_REF" --no-verify-jwt
+          supabase functions deploy reminder --project-ref "$PROJECT_REF" --no-verify-jwt
 
       - if: steps.config.outputs.ready == 'true'
         name: Smoke test
