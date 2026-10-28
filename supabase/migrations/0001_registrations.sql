@@ -45,6 +45,7 @@ create or replace function public.purge_rate_limits() returns void
   delete from public.rate_limits where created_at < now() - interval '1 day';
 $$;
 revoke all on function public.purge_rate_limits() from public, anon, authenticated;
+grant execute on function public.purge_rate_limits() to service_role;
 
 -- TODO: Jerry agrega los correos de administradores:
 -- insert into public.admins (email) values ('media@publifix.net');

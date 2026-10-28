@@ -4,7 +4,8 @@ Landing de registro de Ubeenet Connect 2026. Especificación: `PROMPT_CLAUDE_COD
 
 ## Publicación
 
-- Push a `main` → `.github/workflows/deploy.yml` construye Astro y publica en GitHub Pages: https://publifix.github.io/ubeenet/
+- Push a `main` → `.github/workflows/deploy.yml` construye Astro y publica en GitHub Pages: https://publifix.github.io/ubeenet/ (dominio final: https://ubeenetevents.com.mx, vía variables `SITE_URL`/`BASE_PATH`; ver `docs/PUESTA-EN-MARCHA.md`).
+- `.github/workflows/supabase.yml` despliega la Edge Function y sus secrets con la API de Supabase (sin conectar Supabase a GitHub). Las tablas se crean pegando la migración en el SQL Editor.
 - Al terminar cada ronda de desarrollo: commit, push de la rama de trabajo y a `main`, y dar al usuario la URL pública.
 - El sitio vive bajo `/ubeenet/`: usar `withBase()` de `src/lib/paths.ts` para rutas internas y assets de `public/`.
 

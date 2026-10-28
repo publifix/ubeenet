@@ -1,6 +1,6 @@
 // Edge Function pública de registro. Desplegar con --no-verify-jwt:
 //   supabase functions deploy register --no-verify-jwt
-// Secrets: RESEND_API_KEY, RESEND_FROM, ALLOWED_ORIGINS, SITE_PUBLIC_URL,
+// Secrets: RESEND_API_KEY, RESEND_FROM, REPLY_TO, ALLOWED_ORIGINS, SITE_PUBLIC_URL,
 //          TURNSTILE_SECRET (opcional), NOTIFY_EMAIL (opcional, varios separados por coma).
 // Los avisos internos de cada registro van a NOTIFY_EMAIL o, si no existe,
 // a DEFAULT_NOTIFY_EMAIL (indicación del cliente).
@@ -170,6 +170,7 @@ Deno.serve(async (req) => {
   const mail = confirmationEmail(data.full_name, siteUrl);
   const sent = await sendEmail({
     to: [data.email],
+    reply_to: env('REPLY_TO') || event.organizer.email,
     subject: mail.subject,
     html: mail.html,
     text: mail.text,
@@ -182,6 +183,7 @@ Deno.serve(async (req) => {
   const when = new Intl.DateTimeFormat('es-MX', { timeZone: event.timeZone, dateStyle: 'medium', timeStyle: 'short' }).format(new Date());
   await sendEmail({
     to: notify,
+    reply_to: data.email,
     subject: `Nuevo registro · ${event.name}: ${data.full_name}`,
     text: [
       `Nuevo registro en ${event.name}`,

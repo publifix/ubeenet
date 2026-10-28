@@ -71,6 +71,8 @@ Luego en `.env` del sitio: `PUBLIC_REGISTER_ENDPOINT=http://127.0.0.1:54321/func
 
 ## Checklist de setup (pasos manuales)
 
+> Guía paso a paso actualizada (dominio `ubeenetevents.com.mx`, Resend, Supabase vía GitHub Actions): [`docs/PUESTA-EN-MARCHA.md`](docs/PUESTA-EN-MARCHA.md).
+
 - [x] 1. Repo `publifix/ubeenet` con GitHub Pages en source **GitHub Actions**.
 - [ ] 2. Crear proyecto en Supabase → `supabase db push` (o pegar `supabase/migrations/0001_registrations.sql` en el SQL Editor) → `insert into public.admins (email) values ('…');` con los correos de administradores.
 - [ ] 3. Supabase Auth: desactivar **Allow new users to sign up** y crear a mano los usuarios administradores (Authentication → Users → Add user, con contraseña).
