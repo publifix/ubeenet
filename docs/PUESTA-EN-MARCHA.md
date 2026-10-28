@@ -69,7 +69,8 @@ Después: *Actions → Deploy to GitHub Pages → Run workflow*. El sitio queda 
    ```sql
    insert into public.admins (email) values
      ('elia@blanconuclear.com.mx'),
-     ('media@publifix.net');
+     ('labs.publifix@gmail.com'),
+     ('mirna@blanconuclear.com.mx');
    ```
 
 ### 3.3 Usuarios del panel `/registros`

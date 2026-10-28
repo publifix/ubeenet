@@ -47,5 +47,6 @@ $$;
 revoke all on function public.purge_rate_limits() from public, anon, authenticated;
 grant execute on function public.purge_rate_limits() to service_role;
 
--- TODO: Jerry agrega los correos de administradores:
--- insert into public.admins (email) values ('media@publifix.net');
+-- Administradores del panel /registros (se insertan aparte, en el SQL Editor):
+-- insert into public.admins (email) values
+--   ('elia@blanconuclear.com.mx'), ('labs.publifix@gmail.com'), ('mirna@blanconuclear.com.mx');
