@@ -11,7 +11,7 @@ import { reminderEmail } from '../register/email.ts';
 import { sendEmail } from '../register/resend.ts';
 
 const env = (k: string) => Deno.env.get(k)?.trim() || '';
-const DEFAULT_NOTIFY_EMAILS = 'elia@blanconuclear.com.mx,labs.publifix@gmail.com,mirna@blanconuclear.com.mx';
+const DEFAULT_NOTIFY_EMAILS = 'elia@blanconuclear.com.mx,labs.publifix@gmail.com,aaron.sanchez@ubeenet.com';
 const PAUSE_MS = 600; // límite de la API de Resend: ~2 envíos por segundo
 
 const json = (body: unknown, status = 200) =>

@@ -3,7 +3,7 @@
 // Secrets: RESEND_API_KEY, RESEND_FROM, REPLY_TO, ALLOWED_ORIGINS, SITE_PUBLIC_URL,
 //          TURNSTILE_SECRET (opcional), NOTIFY_EMAIL (opcional, varios separados por coma).
 // Los avisos internos de cada registro van a NOTIFY_EMAIL o, si no existe,
-// a DEFAULT_NOTIFY_EMAILS (los tres usuarios del panel, indicación del cliente).
+// a DEFAULT_NOTIFY_EMAILS (indicación del cliente).
 import { createClient } from 'npm:@supabase/supabase-js@2';
 import { event } from '../_shared/event.ts';
 import { buildIcs } from '../_shared/ics.ts';
@@ -17,7 +17,7 @@ const ALLOWED_ORIGINS = env('ALLOWED_ORIGINS')
   .split(',')
   .map((o) => o.trim().replace(/\/$/, ''))
   .filter(Boolean);
-const DEFAULT_NOTIFY_EMAILS = 'elia@blanconuclear.com.mx,labs.publifix@gmail.com,mirna@blanconuclear.com.mx';
+const DEFAULT_NOTIFY_EMAILS = 'elia@blanconuclear.com.mx,labs.publifix@gmail.com,aaron.sanchez@ubeenet.com';
 const RATE_LIMIT = 5;
 const RATE_WINDOW_MIN = 10;
 

@@ -108,7 +108,7 @@ Después: *Actions → Deploy to GitHub Pages → Run workflow*. El sitio queda 
 | `PUBLIC_SUPABASE_ANON_KEY` | la clave pública del paso 3.4 |
 
 Opcionales (ya tienen valor por defecto): `RESEND_FROM` (`Ubeenet Eventos <eventos@ubeenetevents.com.mx>`),
-`REPLY_TO` (`sales@ubeenet.com`), `NOTIFY_EMAILS` (por defecto `elia@blanconuclear.com.mx,labs.publifix@gmail.com,mirna@blanconuclear.com.mx`).
+`REPLY_TO` (`sales@ubeenet.com`), `NOTIFY_EMAILS` (por defecto `elia@blanconuclear.com.mx,labs.publifix@gmail.com,aaron.sanchez@ubeenet.com`).
 
 **Modo prueba:** crea la variable `NOTIFY_EMAILS` = `labs.publifix@gmail.com` y corre *Actions → Supabase (función de registro) → Run workflow*. Ojo: borrar o editar una variable después pide verificación por correo de la cuenta de GitHub; si no hay acceso a ese correo, en vez de borrarla pide un cambio en el código. (La variable `NOTIFY_EMAIL`, en singular, quedó de la primera prueba y ya no se usa.)
 
