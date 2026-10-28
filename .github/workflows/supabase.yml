@@ -5,7 +5,7 @@
 # Secrets del repo:   SUPABASE_ACCESS_TOKEN, SUPABASE_PROJECT_REF, RESEND_API_KEY,
 #                     TURNSTILE_SECRET (opcional)
 # Variables opcionales (tienen valor por defecto): RESEND_FROM, REPLY_TO,
-#                     ALLOWED_ORIGINS, SITE_PUBLIC_URL, NOTIFY_EMAIL
+#                     ALLOWED_ORIGINS, SITE_PUBLIC_URL, NOTIFY_EMAILS (destinatarios de los avisos)
 name: Supabase (función de registro)
 
 on:
@@ -66,7 +66,9 @@ jobs:
           REPLY_TO: ${{ vars.REPLY_TO || 'sales@ubeenet.com' }}
           ALLOWED_ORIGINS: ${{ vars.ALLOWED_ORIGINS || 'https://ubeenetevents.com.mx,https://www.ubeenetevents.com.mx,https://publifix.github.io,http://localhost:4321' }}
           SITE_PUBLIC_URL: ${{ vars.SITE_PUBLIC_URL || 'https://ubeenetevents.com.mx' }}
-          NOTIFY_EMAIL: ${{ vars.NOTIFY_EMAIL || 'elia@blanconuclear.com.mx,labs.publifix@gmail.com,mirna@blanconuclear.com.mx' }}
+          # Se lee NOTIFY_EMAILS (plural). La variable vieja NOTIFY_EMAIL (modo prueba) se ignora:
+          # borrarla pide verificación por correo de la cuenta de GitHub, a la que no hay acceso.
+          NOTIFY_EMAIL: ${{ vars.NOTIFY_EMAILS || 'elia@blanconuclear.com.mx,labs.publifix@gmail.com,mirna@blanconuclear.com.mx' }}
         run: |
           # Clave de la función reminder: derivada del token, reminder.yml la calcula igual.
           REMINDER_KEY=$(printf 'ubeenet-reminder:%s' "$SUPABASE_ACCESS_TOKEN" | sha256sum | cut -d' ' -f1)

@@ -108,9 +108,9 @@ Después: *Actions → Deploy to GitHub Pages → Run workflow*. El sitio queda 
 | `PUBLIC_SUPABASE_ANON_KEY` | la clave pública del paso 3.4 |
 
 Opcionales (ya tienen valor por defecto): `RESEND_FROM` (`Ubeenet Eventos <eventos@ubeenetevents.com.mx>`),
-`REPLY_TO` (`sales@ubeenet.com`), `NOTIFY_EMAIL` (por defecto `elia@blanconuclear.com.mx,labs.publifix@gmail.com,mirna@blanconuclear.com.mx`).
+`REPLY_TO` (`sales@ubeenet.com`), `NOTIFY_EMAILS` (por defecto `elia@blanconuclear.com.mx,labs.publifix@gmail.com,mirna@blanconuclear.com.mx`).
 
-**Modo prueba:** crea la variable `NOTIFY_EMAIL` = `labs.publifix@gmail.com` y corre *Actions → Supabase (función de registro) → Run workflow*. Así los avisos solo llegan a labs. Al terminar las pruebas borra la variable y vuelve a correr el workflow: los avisos regresan a los tres correos.
+**Modo prueba:** crea la variable `NOTIFY_EMAILS` = `labs.publifix@gmail.com` y corre *Actions → Supabase (función de registro) → Run workflow*. Ojo: borrar o editar una variable después pide verificación por correo de la cuenta de GitHub; si no hay acceso a ese correo, en vez de borrarla pide un cambio en el código. (La variable `NOTIFY_EMAIL`, en singular, quedó de la primera prueba y ya no se usa.)
 
 ---
 
@@ -130,14 +130,14 @@ Opcionales (ya tienen valor por defecto): `RESEND_FROM` (`Ubeenet Eventos <event
    - Aviso del nuevo registro en `labs.publifix@gmail.com` (en modo prueba) o en los tres correos del equipo.
    - Registro visible en https://ubeenetevents.com.mx/registros/ (inicia sesión con un usuario del paso 3.3).
 3. Registra el mismo correo otra vez: debe decir que ya tiene lugar reservado.
-4. Antes de difundir, deja la base en cero: pega `supabase/sql/limpieza-pruebas.sql` en *Supabase → SQL Editor* → **Run** (debe mostrar 0 y 0). Luego borra la variable `NOTIFY_EMAIL` y corre el workflow *Supabase (función de registro)* para que los avisos vuelvan a los tres correos.
+4. Antes de difundir, deja la base en cero: pega `supabase/sql/limpieza-pruebas.sql` en *Supabase → SQL Editor* → **Run** (debe mostrar 0 y 0). Después corre el workflow *Supabase (función de registro)* para que los avisos vuelvan a los tres correos.
 
 ## Recordatorio del día anterior
 
 - Se envía solo el **miércoles 25 de noviembre, ~4:00 pm CDMX**, a todos los registrados (workflow *Recordatorio (día antes del evento)*).
 - Para ver una muestra: *Actions → Recordatorio (día antes del evento) → Run workflow* con `mode = test`. Llega a `labs.publifix@gmail.com` con asunto "[Prueba] …".
 - `mode = all` lo manda a todos; solo funciona en las 48 h previas al evento salvo que marques `force`. Repetirlo el mismo día no duplica correos.
-- Al terminar, el equipo (`NOTIFY_EMAIL`) recibe un resumen "Recordatorio enviado · N de M".
+- Al terminar, el equipo (los mismos correos de los avisos) recibe un resumen "Recordatorio enviado · N de M".
 
 ## Si algo falla
 - **El formulario dice "No pudimos guardar tu registro"**: revisa que el workflow de Supabase esté en verde y que `PUBLIC_REGISTER_ENDPOINT` sea exacto.
