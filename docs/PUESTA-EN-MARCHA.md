@@ -47,7 +47,7 @@ Después: *Actions → Deploy to GitHub Pages → Run workflow*. El sitio queda 
 2. *Domains → Add domain* → `ubeenetevents.com.mx` (región: la que sugiera, p. ej. `us-east-1`).
 3. Resend muestra 3–4 registros (MX y TXT para `send`, TXT `resend._domainkey`). Agrégalos en GoDaddy → DNS
    **copiando exactamente nombre y valor**. En GoDaddy el nombre va sin el dominio (p. ej. `send`, `resend._domainkey`).
-4. Recomendado: agrega también un TXT con nombre `_dmarc` y valor `v=DMARC1; p=none;`.
+4. **No agregues otro `_dmarc`**: GoDaddy ya creó uno (`v=DMARC1; p=quarantine; …`) y solo puede haber uno. Con el DKIM de Resend verificado, los correos lo pasan.
 5. En Resend pulsa **Verify DNS Records** hasta que el dominio diga *Verified*.
 6. *API Keys → Create API Key* (permiso *Sending access*, dominio `ubeenetevents.com.mx`). Copia la clave
    (empieza con `re_`); solo se muestra una vez.
