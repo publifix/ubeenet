@@ -94,16 +94,16 @@ export const event = {
     title: 'Qué vas a vivir',
     items: [
       {
-        title: 'MultiCloud sin fricción',
-        text: 'Cómo mover aplicaciones y datos entre nubes cuando tiene sentido para el negocio, no cuando lo exige el proveedor.',
+        title: 'Buenas conversaciones',
+        text: 'Un espacio para reencontrarnos, platicar con calma y disfrutar un momento juntos, fuera de la rutina.',
       },
       {
-        title: 'Una red que se defiende sola',
-        text: 'Networking y seguridad nativos de la nube: de monitorear incidentes a prevenirlos con automatización.',
+        title: 'Conversemos sobre lo que viene',
+        text: 'En una charla cercana te compartiremos cómo nuestras soluciones MultiCloud y de continuidad de negocio pueden acompañar tus próximos proyectos y preparar a tu empresa ante cualquier imprevisto.',
       },
       {
-        title: 'Conversaciones que no caben en una llamada',
-        text: 'Una tarde con el equipo de Ubeenet, sus partners y otros líderes de TI.',
+        title: 'Un cierre de año para agradecer y celebrar',
+        text: 'Queremos agradecerte tu confianza en Ubeenet y compartir un momento especial entre clientes, aliados y amigos. ¡Celebremos juntos este año y todo lo que viene!',
       },
     ],
   },
