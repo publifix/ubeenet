@@ -1,0 +1,35 @@
+# Diagnóstico del registro (solo lectura; no crea registros ni envía correos).
+# Actions → Diagnóstico del registro → Run workflow.
+name: Diagnóstico del registro
+
+on:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    env:
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      PROJECT_REF: ${{ secrets.SUPABASE_PROJECT_REF }}
+      ANON_KEY: ${{ vars.PUBLIC_SUPABASE_ANON_KEY }}
+      ENDPOINT: ${{ vars.PUBLIC_REGISTER_ENDPOINT }}
+    steps:
+      - name: Estado del proyecto (API de Supabase)
+        run: |
+          curl -s -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" "https://api.supabase.com/v1/projects/$PROJECT_REF" \
+            | jq '{status, region, created_at}' || true
+
+      - name: Base de datos (REST con la clave pública)
+        run: |
+          curl -s -w '\nHTTP %{http_code}\n' --max-time 30 \
+            -H "apikey: $ANON_KEY" -H "Authorization: Bearer $ANON_KEY" \
+            "https://$PROJECT_REF.supabase.co/rest/v1/registrations?select=id&limit=1" || true
+
+      - name: Función register (preflight y validación)
+        run: |
+          echo "ENDPOINT=$ENDPOINT"
+          curl -s -o /dev/null -w 'OPTIONS → %{http_code}\n' -X OPTIONS -H "Origin: https://ubeenetevents.com.mx" "$ENDPOINT" || true
+          # Datos inválidos a propósito: debe responder 400 "validation" sin guardar nada.
+          curl -s -w '\nPOST inválido → HTTP %{http_code}\n' --max-time 30 -X POST \
+            -H "Origin: https://ubeenetevents.com.mx" -H "Content-Type: application/json" \
+            -d '{"full_name":"x","email":"no","country_code":"52","phone":"1"}' "$ENDPOINT" || true
