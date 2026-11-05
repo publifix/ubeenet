@@ -18,15 +18,14 @@ const html = `<!doctype html><html><head><meta charset="utf-8"><style>
 * { margin: 0; box-sizing: border-box; }
 body { width: 1200px; height: 440px; background: #161C2A; font-family: Roboto; color: #fff; overflow: hidden; position: relative; }
 svg { position: absolute; top: 0; right: 0; width: 560px; height: 440px; }
-.inner { position: absolute; inset: 64px 72px; display: flex; flex-direction: column; gap: 44px; }
+.inner { position: absolute; inset: 64px 72px; display: flex; flex-direction: column; gap: 36px; }
 .logo { width: 180px; }
-h1 { font-size: 56px; line-height: 1.06; letter-spacing: -0.015em; max-width: 14ch; }
-h1 span { display: block; }
+h1 { font-size: 46px; line-height: 1.08; letter-spacing: -0.015em; max-width: 18ch; }
 </style></head><body>
 <svg viewBox="300 0 724 1280" preserveAspectRatio="none">${shapes}</svg>
 <div class="inner">
   <img class="logo" src="data:image/svg+xml;base64,${b64('public/brand/ubeenet-white.svg')}">
-  <h1><span style="font-weight:700">Conectemos hoy.</span><span style="font-weight:300">Creemos nuevas oportunidades juntos.</span></h1>
+  <h1><span style="font-weight:700">Conectar tecnología, negocio y oportunidades</span><span style="font-weight:300"> con miras al próximo año.</span></h1>
 </div>
 </body></html>`;
 

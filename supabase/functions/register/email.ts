@@ -44,7 +44,7 @@ function layout(opts: { title: string; preheader: string; siteUrl: string; body:
       <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:600px;">
         <tr>
           <td style="padding:0;">
-            <img src="${header}" width="600" alt="Ubeenet · Conectemos hoy. Creemos nuevas oportunidades juntos." style="display:block;width:100%;max-width:600px;height:auto;border:0;border-radius:16px 16px 0 0;">
+            <img src="${header}" width="600" alt="Ubeenet · Conectar tecnología, negocio y oportunidades con miras al próximo año." style="display:block;width:100%;max-width:600px;height:auto;border:0;border-radius:16px 16px 0 0;">
           </td>
         </tr>
         <tr>

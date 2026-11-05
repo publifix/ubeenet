@@ -3,7 +3,7 @@ import { event } from '../config/event';
 import { withBase } from '../lib/paths';
 const s = event.sponsors;
 // Mismo peso visual para todos: área constante (un logo más alargado queda más bajo).
-const AREA = 6400; // px² en desktop
+const AREA = 5200; // px² en desktop
 const size = (w: number, h: number) => {
   const ratio = w / h;
   const height = Math.sqrt(AREA / ratio);
@@ -47,22 +47,15 @@ const size = (w: number, h: number) => {
     margin: 0;
     padding: 0;
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    border-top: 1px solid var(--linea-clara);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: var(--s-3);
+    padding-block: var(--s-2);
+    border-block: 1px solid var(--linea-clara);
   }
   .sponsors__grid li {
     display: flex;
     align-items: center;
-    min-height: 128px;
-    padding-block: var(--s-3);
-    border-bottom: 1px solid var(--linea-clara);
-  }
-  .sponsors__grid li:nth-child(odd) {
-    padding-right: var(--s-3);
-  }
-  .sponsors__grid li:nth-child(even) {
-    padding-left: var(--s-3);
-    border-left: 1px solid var(--linea-clara);
+    min-height: 104px;
   }
   .sponsors__grid img {
     display: block;
@@ -70,19 +63,16 @@ const size = (w: number, h: number) => {
     height: auto;
     opacity: 0.88;
   }
-  @media (max-width: 479px) {
+  @media (max-width: 639px) {
+    .sponsors__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: var(--s-2);
+    }
     .sponsors__grid li {
-      min-height: 96px;
-      padding-block: var(--s-2);
-    }
-    .sponsors__grid li:nth-child(odd) {
-      padding-right: var(--s-2);
-    }
-    .sponsors__grid li:nth-child(even) {
-      padding-left: var(--s-2);
+      min-height: 84px;
     }
     .sponsors__grid img {
-      width: min(calc(var(--w) * 0.72), 100%);
+      width: min(calc(var(--w) * 0.8), 100%);
     }
   }
 </style>

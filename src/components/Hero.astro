@@ -16,6 +16,7 @@ const [startLabel, endLabel] = event.timeRange.split(' a ');
   </div>
   <div class="container hero__grid">
     <div class="hero__copy">
+      <p class="hero__eyebrow">{h.eyebrow}</p>
       <h1 class="hero__title" id="hero-title">
         {h.title.map((w) => <span style={`font-weight:${w.weight}`}>{w.text}</span>)}
       </h1>
@@ -99,14 +100,20 @@ const [startLabel, endLabel] = event.timeRange.split(' a ');
   }
 
   /* Titular con la tipografía de la invitación: Roboto, primera frase en negrita y segunda ligera. */
+  .hero__eyebrow {
+    margin-bottom: var(--s-2);
+    font-family: var(--font-titular);
+    font-size: 0.9375rem;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
   .hero__title {
     font-family: var(--font-titular);
-    font-size: clamp(2.75rem, 3.4vw + 1.4rem, 5rem);
-    line-height: 1.02;
+    font-size: clamp(2.25rem, 2.4vw + 1.3rem, 3.75rem);
+    line-height: 1.04;
     letter-spacing: -0.015em;
-  }
-  .hero__title span {
-    display: block;
+    text-wrap: balance;
   }
   .hero__subtitle {
     margin-top: var(--s-4);
@@ -168,6 +175,7 @@ const [startLabel, endLabel] = event.timeRange.split(' a ');
 
   /* Secuencia de carga: titular → datos → formulario (600 ms en total). */
   @media (prefers-reduced-motion: no-preference) {
+    .hero__eyebrow,
     .hero__title,
     .hero__subtitle,
     .hero__data,

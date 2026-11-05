@@ -44,18 +44,18 @@ export const event = {
     note: 'Contaremos con servicio de valet parking.',
   },
   meta: {
-    title: 'Conectemos hoy · Ubeenet · 26 de noviembre de 2026',
+    title: 'Conectar tecnología, negocio y oportunidades · Ubeenet · 26 de noviembre de 2026',
     description:
-      'Regístrate y acompáñanos en una tarde para compartir ideas, fortalecer relaciones y descubrir nuevas oportunidades de negocios. Jueves 26 de noviembre de 2026, Hotel Campos Polanco, CDMX.',
+      'Una tarde para compartir ideas y explorar oportunidades juntos. Jueves 26 de noviembre de 2026, 5:45 pm, Hotel Campos Polanco, CDMX. Regístrate.',
   },
   hero: {
-    // Cada frase va en su propia línea; el contraste de pesos (700/300) viene de la invitación.
+    // Textos de la invitación oficial. El titular corre seguido; el contraste de pesos (700/300) viene de ella.
+    eyebrow: 'Una invitación para',
     title: [
-      { text: 'Conectemos hoy.', weight: 700 },
-      { text: 'Creemos nuevas oportunidades juntos.', weight: 300 },
+      { text: 'Conectar tecnología, negocio y oportunidades', weight: 700 },
+      { text: ' con miras al próximo año.', weight: 300 },
     ],
-    subtitle:
-      'Regístrate y acompáñanos en una tarde para compartir ideas, fortalecer relaciones y descubrir nuevas oportunidades de negocios.',
+    subtitle: 'Una tarde para compartir ideas y explorar oportunidades juntos.',
     day: 'Jueves',
     date: '26 de noviembre',
   },
@@ -113,14 +113,16 @@ export const event = {
     photoAlt: 'Patio del Hotel Campos Polanco de noche: mesas de madera, sillas tejidas, plantas y lámparas colgantes frente a un muro de ladrillo iluminado.',
   },
   sponsors: {
-    title: 'Patrocinadores',
+    title: 'Marcas aliadas', // como en la invitación oficial
     // Logos monocromos en public/brand/sponsors (generados desde los archivos del cliente).
     // width/height: tamaño del PNG, para dimensionarlos con el mismo peso visual.
     items: [
-      { name: 'Fortinet', file: 'fortinet.png', width: 480, height: 55 },
-      { name: 'Nutanix', file: 'nutanix.png', width: 480, height: 61 },
+      // Mismo orden que la invitación.
       { name: 'Veeam', file: 'veeam.png', width: 428, height: 76 },
       { name: 'ExaGrid', file: 'exagrid.png', width: 480, height: 96 },
+      { name: 'Fortinet', file: 'fortinet.png', width: 480, height: 55 },
+      { name: 'Nutanix', file: 'nutanix.png', width: 480, height: 61 },
+      { name: 'Adistec', file: 'adistec.png', width: 480, height: 133 },
     ],
   },
   faq: {
