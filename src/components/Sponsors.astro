@@ -1,0 +1,88 @@
+---
+import { event } from '../config/event';
+import { withBase } from '../lib/paths';
+const s = event.sponsors;
+// Mismo peso visual para todos: área constante (un logo más alargado queda más bajo).
+const AREA = 6400; // px² en desktop
+const size = (w: number, h: number) => {
+  const ratio = w / h;
+  const height = Math.sqrt(AREA / ratio);
+  return { width: Math.round(height * ratio), height: Math.round(height) };
+};
+---
+
+<section class="section section--light sponsors" aria-labelledby="patrocinadores-titulo">
+  <div class="container split">
+    <h2 id="patrocinadores-titulo" class="split__head">{s.title}</h2>
+    <ul class="sponsors__grid" role="list">
+      {
+        s.items.map((item) => {
+          const d = size(item.width, item.height);
+          return (
+            <li>
+              <img
+                src={withBase(`brand/sponsors/${item.file}`)}
+                alt={item.name}
+                width={d.width}
+                height={d.height}
+                loading="lazy"
+                decoding="async"
+                style={`--w:${d.width}px`}
+              />
+            </li>
+          );
+        })
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .sponsors {
+    padding-top: var(--s-4);
+    padding-bottom: 0;
+  }
+  .sponsors__grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-top: 1px solid var(--linea-clara);
+  }
+  .sponsors__grid li {
+    display: flex;
+    align-items: center;
+    min-height: 128px;
+    padding-block: var(--s-3);
+    border-bottom: 1px solid var(--linea-clara);
+  }
+  .sponsors__grid li:nth-child(odd) {
+    padding-right: var(--s-3);
+  }
+  .sponsors__grid li:nth-child(even) {
+    padding-left: var(--s-3);
+    border-left: 1px solid var(--linea-clara);
+  }
+  .sponsors__grid img {
+    display: block;
+    width: min(var(--w), 100%);
+    height: auto;
+    opacity: 0.88;
+  }
+  @media (max-width: 479px) {
+    .sponsors__grid li {
+      min-height: 96px;
+      padding-block: var(--s-2);
+    }
+    .sponsors__grid li:nth-child(odd) {
+      padding-right: var(--s-2);
+    }
+    .sponsors__grid li:nth-child(even) {
+      padding-left: var(--s-2);
+    }
+    .sponsors__grid img {
+      width: min(calc(var(--w) * 0.72), 100%);
+    }
+  }
+</style>

@@ -113,11 +113,16 @@ export const event = {
     wazeLabel: 'Abrir en Waze',
     photoAlt: 'Patio del Hotel Campos Polanco de noche: mesas de madera, sillas tejidas, plantas y lámparas colgantes frente a un muro de ladrillo iluminado.',
   },
-  partners: {
-    title: 'Partners',
-    // Sección oculta (src/components/Partners.astro no se usa en index) hasta confirmar participantes.
-    // TODO: confirmar cuáles participan en el evento y reemplazar por logos monocromos.
-    items: ['AWS', 'Microsoft Azure', 'Oracle', 'VMware', 'Cisco', 'Aviatrix', 'Palo Alto Networks', 'Veeam', 'ExaGrid', 'Pure Storage'],
+  sponsors: {
+    title: 'Patrocinadores',
+    // Logos monocromos en public/brand/sponsors (generados desde los archivos del cliente).
+    // width/height: tamaño del PNG, para dimensionarlos con el mismo peso visual.
+    items: [
+      { name: 'Fortinet', file: 'fortinet.png', width: 480, height: 55 },
+      { name: 'Nutanix', file: 'nutanix.png', width: 480, height: 61 },
+      { name: 'Veeam', file: 'veeam.png', width: 428, height: 76 },
+      { name: 'ExaGrid', file: 'exagrid.png', width: 480, height: 96 },
+    ],
   },
   faq: {
     title: 'Preguntas frecuentes',

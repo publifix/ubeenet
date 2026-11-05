@@ -89,7 +89,7 @@ Luego en `.env` del sitio: `PUBLIC_REGISTER_ENDPOINT=http://127.0.0.1:54321/func
 .github/workflows/deploy.yml   build + GitHub Pages
 public/brand, public/media     logos y foto de la sede
 src/config/event.ts            ÚNICA fuente de nombre, fecha, sede y textos
-src/components/                Hero, HeroShapes, RegisterForm, Curve, Themes, Venue, Partners (oculto), Faq, FinalCta, Footer, StickyCta
+src/components/                Hero, HeroShapes, RegisterForm, Curve, Themes, Venue, Sponsors, Faq, FinalCta, Footer, StickyCta
 src/lib/                       validation.ts, ics.ts, paths.ts
 src/pages/                     index, registros/ (panel), aviso-de-privacidad
 supabase/migrations/           0001_registrations.sql
