@@ -69,3 +69,29 @@ const jsonLd = {
   <Footer />
   <StickyCta />
 </Base>
+
+<script>
+  // Mantiene activo el proyecto de Supabase (el plan gratuito se pausa tras 7 días sin
+  // actividad): una consulta de lectura por visitante y día, cuando el navegador está libre.
+  // No envía datos del visitante; con RLS la respuesta es una lista vacía.
+  const url = import.meta.env.PUBLIC_SUPABASE_URL;
+  const key = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
+  if (url && key) {
+    const today = new Date().toISOString().slice(0, 10);
+    let seen = '';
+    try {
+      seen = localStorage.getItem('ubeenet-ping') || '';
+    } catch {}
+    if (seen !== today) {
+      const ping = () =>
+        fetch(`${url}/rest/v1/registrations?select=id&limit=1`, { headers: { apikey: key, Authorization: `Bearer ${key}` } })
+          .then(() => {
+            try {
+              localStorage.setItem('ubeenet-ping', today);
+            } catch {}
+          })
+          .catch(() => {});
+      'requestIdleCallback' in window ? requestIdleCallback(ping, { timeout: 5000 }) : setTimeout(ping, 3000);
+    }
+  }
+</script>
