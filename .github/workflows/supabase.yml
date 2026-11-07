@@ -82,13 +82,13 @@ jobs:
           )
           [ -n "$RESEND_API_KEY" ] && args+=("RESEND_API_KEY=$RESEND_API_KEY")
           [ -n "$TURNSTILE_SECRET" ] && args+=("TURNSTILE_SECRET=$TURNSTILE_SECRET")
-          supabase secrets set --project-ref "$PROJECT_REF" "${args[@]}"
+          supabase secrets set --yes --project-ref "$PROJECT_REF" "${args[@]}"
 
       - if: steps.config.outputs.ready == 'true'
         name: Deploy functions
         run: |
-          supabase functions deploy register --project-ref "$PROJECT_REF" --no-verify-jwt
-          supabase functions deploy reminder --project-ref "$PROJECT_REF" --no-verify-jwt
+          supabase functions deploy register --yes --project-ref "$PROJECT_REF" --no-verify-jwt
+          supabase functions deploy reminder --yes --project-ref "$PROJECT_REF" --no-verify-jwt
 
       - if: steps.config.outputs.ready == 'true'
         name: Smoke test
